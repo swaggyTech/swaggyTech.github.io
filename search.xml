@@ -257,7 +257,7 @@
   <entry>
     <title>spring学习笔记1：IOC概念，解耦思想</title>
     <url>/2019/12/11/spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01%EF%BC%9AIOC%E6%A6%82%E5%BF%B5%EF%BC%8C%E8%A7%A3%E8%80%A6%E6%80%9D%E6%83%B3/</url>
-    <content><![CDATA[<center>IOC概念，解耦思想
+    <content><![CDATA[<center>IOC概念，解耦思想</center>
 
 <a id="more"></a>
 
@@ -327,7 +327,7 @@
 <h3><span id="kong-zhi-fan-zhuan-inversion-of-control">控制反转-Inversion Of Control</span><a href="#kong-zhi-fan-zhuan-inversion-of-control" class="header-anchor">#</a></h3><h4><span id="cun-na-li">存哪里</span><a href="#cun-na-li" class="header-anchor">#</a></h4><p>由于很多对象，需要一个集合存起来，在应用加载时，创建一个Map,用于存放三层对象，这个map称之为容器</p>
 <h4><span id="gong-han">工厂</span><a href="#gong-han" class="header-anchor">#</a></h4><p>工厂就是负责给我们从容器中获取指定对象的类。这时候我们获取对象的方式发生了改变。</p>
 <p>从 new （主动）到 获取对象时跟工厂要，由工厂为我们查找或者创建对象（被动）</p>
-</center>]]></content>
+]]></content>
       <categories>
         <category>spring</category>
       </categories>
