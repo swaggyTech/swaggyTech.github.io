@@ -48,27 +48,32 @@
   };
 </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="翻个片马">
-<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;index.html">
+  <meta name="description" content="Java代理模式小撇步  代理模式定义#为其他对象提供一种代理以控制对这个对象的访问 静态代理#指预先确定了代理与被代理者的关系，即在编译期就确定了。 例：翻片马诉讼，律师代理 首先定义一个代表诉讼的接口 1234public interface ILawSuit&amp;#123;	void submit(String proof);&#x2F;&#x2F;提起诉讼    void defend();&#x2F;&#x2F;辩护&amp;#125;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="spring学习笔记5：代理模式">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;22&#x2F;spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05%EF%BC%9A%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F&#x2F;index.html">
 <meta property="og:site_name" content="翻个片马">
+<meta property="og:description" content="Java代理模式小撇步  代理模式定义#为其他对象提供一种代理以控制对这个对象的访问 静态代理#指预先确定了代理与被代理者的关系，即在编译期就确定了。 例：翻片马诉讼，律师代理 首先定义一个代表诉讼的接口 1234public interface ILawSuit&amp;#123;	void submit(String proof);&#x2F;&#x2F;提起诉讼    void defend();&#x2F;&#x2F;辩护&amp;#125;">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-12-22T10:52:29.000Z">
+<meta property="article:modified_time" content="2019-12-22T12:36:02.626Z">
 <meta property="article:author" content="swaggyTech">
+<meta property="article:tag" content="spring">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://yoursite.com/">
+<link rel="canonical" href="http://yoursite.com/2019/12/22/spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05%EF%BC%9A%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome: true,
-    isPost: false
+    isHome: false,
+    isPost: true
   };
 </script>
 
-  <title>翻个片马</title>
+  <title>spring学习笔记5：代理模式 | 翻个片马</title>
   
 
 
@@ -174,10 +179,10 @@
             
 
   <div class="posts-expand">
-        
+      
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/22/spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05%EF%BC%9A%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -191,8 +196,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/12/22/spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05%EF%BC%9A%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/" class="post-title-link" itemprop="url">spring学习笔记5：代理模式</a>
+          spring学习笔记5：代理模式
         </h1>
 
         <div class="post-meta">
@@ -207,6 +211,16 @@
             </span>
 
           
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+              <span class="post-meta-divider">|</span>
+              <span title="post.wordcount"><span class="post-meta-item-icon"><i class="fa fa-file-word-o"></i></span>字数： 1.2k</span>
+
+            </span>
   
   <span class="post-meta-item">
     
@@ -231,7 +245,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <center>Java代理模式小撇步</center>
+        <center>Java代理模式小撇步</center>
 
 <h2><span id="dai-li-mo-shi-ding-yi">代理模式定义</span><a href="#dai-li-mo-shi-ding-yi" class="header-anchor">#</a></h2><p>为其他对象提供一种代理以控制对这个对象的访问</p>
 <h2><span id="jing-tai-dai-li">静态代理</span><a href="#jing-tai-dai-li" class="header-anchor">#</a></h2><p>指预先确定了代理与被代理者的关系，即在<strong>编译期</strong>就确定了。</p>
@@ -282,482 +296,31 @@
 <p>上例中：使用Proxy类的newProxyInstance()方法生成代理对象proxy去调用了proxy.submit()；那么系统会将此方法分发给invoke()，其中proxy对象的类是系统帮我们动态生成的，其实现了我们的业务接口ILawSuit。</p>
 <h2><span id="cglib-de-dong-tai-dai-li-shi-xian">cglib的动态代理实现</span><a href="#cglib-de-dong-tai-dai-li-shi-xian" class="header-anchor">#</a></h2><p>由于JDK只能针对实现了接口的类做动态代理，而不能对没有实现接口的类做动态代理，所以cglib横空出世！CGLib（Code Generation Library）是一个强大、高性能的Code生成类库，它可以在程序运行期间动态扩展类或接口，它的底层是使用java字节码操作框架ASM实现。</p>
 
-      
     </div>
 
     
     
     
+
       <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+          
+          <div class="post-tags">
+              <a href="/tags/spring/" rel="tag"><i class="fa fa-tag"></i> spring</a>
+          </div>
 
         
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/15/spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04%EF%BC%9Acrud%E5%AE%9E%E4%BE%8B/">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="swaggyTech">
-      <meta itemprop="description" content="">
-    </span>
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="翻个片马">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/12/15/spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04%EF%BC%9Acrud%E5%AE%9E%E4%BE%8B/" class="post-title-link" itemprop="url">spring学习笔记4：crud实例</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2019-12-15 17:41:15 / 修改时间：19:45:24" itemprop="dateCreated datePublished" datetime="2019-12-15T17:41:15+08:00">2019-12-15</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/spring/" itemprop="url" rel="index">
-                    <span itemprop="name">spring</span>
-                  </a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2019/12/15/spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04%EF%BC%9Acrud%E5%AE%9E%E4%BE%8B/#comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2019/12/15/spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04%EF%BC%9Acrud%E5%AE%9E%E4%BE%8B/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <center>crud实例</center>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/12/15/spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04%EF%BC%9Acrud%E5%AE%9E%E4%BE%8B/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
         
-      
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/12/15/spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04%EF%BC%9Acrud%E5%AE%9E%E4%BE%8B/" rel="prev" title="spring学习笔记4：crud实例">
+      <i class="fa fa-chevron-left"></i> spring学习笔记4：crud实例
+    </a></div>
+      <div class="post-nav-item"></div>
     </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
       </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/15/spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B03%EF%BC%9Aspring%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="swaggyTech">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="翻个片马">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/12/15/spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B03%EF%BC%9Aspring%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/" class="post-title-link" itemprop="url">spring学习笔记3：spring依赖注入</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2019-12-15 17:22:37 / 修改时间：19:45:37" itemprop="dateCreated datePublished" datetime="2019-12-15T17:22:37+08:00">2019-12-15</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/spring/" itemprop="url" rel="index">
-                    <span itemprop="name">spring</span>
-                  </a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
     
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2019/12/15/spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B03%EF%BC%9Aspring%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/#comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2019/12/15/spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B03%EF%BC%9Aspring%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <center>spring依赖注入</center>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/12/15/spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B03%EF%BC%9Aspring%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/15/spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02%EF%BC%9Aspring-IOC/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="swaggyTech">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="翻个片马">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/12/15/spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02%EF%BC%9Aspring-IOC/" class="post-title-link" itemprop="url">spring学习笔记2：spring IOC</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2019-12-15 17:19:33 / 修改时间：19:45:46" itemprop="dateCreated datePublished" datetime="2019-12-15T17:19:33+08:00">2019-12-15</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/spring/" itemprop="url" rel="index">
-                    <span itemprop="name">spring</span>
-                  </a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2019/12/15/spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02%EF%BC%9Aspring-IOC/#comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2019/12/15/spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02%EF%BC%9Aspring-IOC/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <center>spring IOC</center>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/12/15/spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02%EF%BC%9Aspring-IOC/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/12/2019%E7%94%B5%E5%BD%B1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="swaggyTech">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="翻个片马">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/12/12/2019%E7%94%B5%E5%BD%B1/" class="post-title-link" itemprop="url">2019电影</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-12-12 11:36:05" itemprop="dateCreated datePublished" datetime="2019-12-12T11:36:05+08:00">2019-12-12</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-12-15 17:55:59" itemprop="dateModified" datetime="2019-12-15T17:55:59+08:00">2019-12-15</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/movies/" itemprop="url" rel="index">
-                    <span itemprop="name">movies</span>
-                  </a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2019/12/12/2019%E7%94%B5%E5%BD%B1/#comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2019/12/12/2019%E7%94%B5%E5%BD%B1/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <center>绝不客观的影评，纯主观乱喷</center>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/12/12/2019%E7%94%B5%E5%BD%B1/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/11/spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01%EF%BC%9AIOC%E6%A6%82%E5%BF%B5%EF%BC%8C%E8%A7%A3%E8%80%A6%E6%80%9D%E6%83%B3/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="swaggyTech">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="翻个片马">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/12/11/spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01%EF%BC%9AIOC%E6%A6%82%E5%BF%B5%EF%BC%8C%E8%A7%A3%E8%80%A6%E6%80%9D%E6%83%B3/" class="post-title-link" itemprop="url">spring学习笔记1：IOC概念，解耦思想</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-12-11 14:23:47" itemprop="dateCreated datePublished" datetime="2019-12-11T14:23:47+08:00">2019-12-11</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-12-15 22:38:17" itemprop="dateModified" datetime="2019-12-15T22:38:17+08:00">2019-12-15</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/spring/" itemprop="url" rel="index">
-                    <span itemprop="name">spring</span>
-                  </a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2019/12/11/spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01%EF%BC%9AIOC%E6%A6%82%E5%BF%B5%EF%BC%8C%E8%A7%A3%E8%80%A6%E6%80%9D%E6%83%B3/#comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2019/12/11/spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01%EF%BC%9AIOC%E6%A6%82%E5%BF%B5%EF%BC%8C%E8%A7%A3%E8%80%A6%E6%80%9D%E6%83%B3/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <center>IOC概念，解耦思想</center>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/12/11/spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01%EF%BC%9AIOC%E6%A6%82%E5%BF%B5%EF%BC%8C%E8%A7%A3%E8%80%A6%E6%80%9D%E6%83%B3/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
   </article>
   
   
@@ -765,12 +328,11 @@
 
   </div>
 
-  
-
 
 
           </div>
           
+    <div class="comments" id="valine-comments"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -817,6 +379,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">1.</span> <span class="nav-text">代理模式定义#</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">2.</span> <span class="nav-text">静态代理#</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">3.</span> <span class="nav-text">动态代理#</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">4.</span> <span class="nav-text">JDK动态代理#</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">5.</span> <span class="nav-text">JDK动态代理实现的原理#</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">6.</span> <span class="nav-text">cglib的动态代理实现#</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

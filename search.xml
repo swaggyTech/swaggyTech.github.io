@@ -1,6 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>spring学习笔记5：代理模式</title>
+    <url>/2019/12/22/spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05%EF%BC%9A%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<center>Java代理模式小撇步</center>
+
+<h2><span id="dai-li-mo-shi-ding-yi">代理模式定义</span><a href="#dai-li-mo-shi-ding-yi" class="header-anchor">#</a></h2><p>为其他对象提供一种代理以控制对这个对象的访问</p>
+<h2><span id="jing-tai-dai-li">静态代理</span><a href="#jing-tai-dai-li" class="header-anchor">#</a></h2><p>指预先确定了代理与被代理者的关系，即在<strong>编译期</strong>就确定了。</p>
+<p>例：翻片马诉讼，律师代理</p>
+<p>首先定义一个代表诉讼的接口</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ILawSuit</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">submit</span><span class="params">(String proof)</span></span>;<span class="comment">//提起诉讼</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">defend</span><span class="params">()</span></span>;<span class="comment">//辩护</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>翻片马诉讼类型，实现ILawSuit接口</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FanPianMaSuit</span> <span class="keyword">implements</span> <span class="title">ILawSuit</span></span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">submit</span><span class="params">(String proof)</span></span>&#123;</span><br><span class="line">        System.out.println(String.format(<span class="string">"证据如下：%s"</span>,proof));</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">defend</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(String.format(<span class="string">"铁证如山，%s还钱"</span>,<span class="string">"XXX"</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>代理律师诉讼类</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProxyLawyer</span> <span class="keyword">implements</span> <span class="title">ILawSuit</span></span>&#123;</span><br><span class="line">    ILawSuit plaintiff;<span class="comment">//持有要代理的对象</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ProxyLawyer</span><span class="params">(ILawSuit plaintiff)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.plaintiff = plaintiff;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">submit</span><span class="params">(String proof)</span></span>&#123;</span><br><span class="line">        plaintiff.submit(proof);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">defend</span><span class="params">()</span></span>&#123;</span><br><span class="line">        plaintiff.defend();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>产生代理对象的静态代理工厂类</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProxyFactory</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ILawSuit <span class="title">getProxy</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ProxyLawyer(<span class="keyword">new</span> FanPianMaSuit());<span class="comment">//代理关系在编译期就确定</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>基本构建代理关系，在客户端可以使用代理对象进行操作</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Client</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ProxyFactory.getProxy().submit(<span class="string">"工资流水在此"</span>);</span><br><span class="line">        ProxyFactory.getProxy().defend();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>代理律师全权代理了翻片马的诉讼活动。</p>
+<h2><span id="dong-tai-dai-li">动态代理</span><a href="#dong-tai-dai-li" class="header-anchor">#</a></h2><p>代理与被代理人的关系动态确定。例如，翻片马在开庭当天选择了一个律师，即<strong>运行期</strong>确定</p>
+<p>那既然动态代理没有为我们增强代理方面的任何功能，那我们为什么还要用动态代理呢，静态代理不是挺好的吗？凡是动态确定的东西大概都具有灵活性，强扩展的优势。上面的例子中如果牛翠花也使用静态代理的话，那么就需要再添加两个类。一个是牛翠花诉讼类，一个是牛翠花的代理律师类，还需要在代理静态工厂中添加一个方法。而如果使用动态代理的话，就只需要生成一个诉讼类就可以了，全程只需要一个代理律师类，因为我们可以动态的将很多人的案子交给这个律师来处理。</p>
+<h2><span id="jdk-dong-tai-dai-li">JDK动态代理</span><a href="#jdk-dong-tai-dai-li" class="header-anchor">#</a></h2><p>Java动态代理机制中，有两个重要的类或接口，一个是InvocationHandler接口，另一个是Proxy类，这个类和接口是实现动态代理必须用到的。</p>
+<p>InvocationHandler接口是给动态代理类实现的，负责处理被代理对象的操作的，Proxy是用来创建动态代理类实例对象的，因为只有得到了这个对象才能调用那些需要代理的方法。</p>
+<ol>
+<li><p>构建一个牛翠花诉讼类</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CuiHuaNiu</span> <span class="keyword">implements</span> <span class="title">ILawSuit</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">submit</span><span class="params">(String proof)</span></span>&#123;</span><br><span class="line">        System.out.println(String.format(<span class="string">"老板欠薪跑路，证据如下：%s"</span>,proof));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">defend</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"铁证如山，XXX换钱"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>构建一个动态代理类</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DynProxyLawyer</span> <span class="keyword">implements</span> <span class="title">InvocationHandler</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Object target;<span class="comment">//被代理对象</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">DynProxyLawyer</span><span class="params">(Object obj)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.target = obj;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method,Object[] args)</span> <span class="keyword">throws</span> Throwable</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"案件进展："</span> + method.getName());</span><br><span class="line">        Object result = method.invoke(target,args);</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>静态工厂方法</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProxyFactory</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title">getDynProxy</span><span class="params">(Object target)</span></span>&#123;</span><br><span class="line">        InvocationHandler handler = <span class="keyword">new</span> DynProxyLawyer(target);</span><br><span class="line">        <span class="keyword">return</span> Proxy.newProxyInstance(target.getClass().getClassLoader(),target.getClass().getInterfaces(),handler);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>客户端使用</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Client</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ILawSuit proxy = (ILawSuit)ProxyFactory.getDynProxy(<span class="keyword">new</span> CuiHuaNiu());</span><br><span class="line">        proxy.submit(<span class="string">"工资流水在此"</span>);</span><br><span class="line">        proxy.defend();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h2><span id="jdk-dong-tai-dai-li-shi-xian-de-yuan-li">JDK动态代理实现的原理</span><a href="#jdk-dong-tai-dai-li-shi-xian-de-yuan-li" class="header-anchor">#</a></h2><p>jdk动态代理实现方法是依赖于<strong>接口</strong>的，首先使用接口来定义好操作的规范然后通过 Proxy类产生代理对象调用被代理对象的操作，而这个操作又被分发给InvocationHandler接口的invoke方法具体执行：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy,Method method,Object[] args)</span> <span class="keyword">throws</span> Throwable</span>;</span><br></pre></td></tr></table></figure>
+
+<p>此方法的参数含义如下：</p>
+<p>proxy:动态代理对象</p>
+<p>method：正在执行的方法</p>
+<p>args：当前执行方法传入的实参</p>
+<p>返回值：当前执行方法的返回值</p>
+<p>上例中：使用Proxy类的newProxyInstance()方法生成代理对象proxy去调用了proxy.submit()；那么系统会将此方法分发给invoke()，其中proxy对象的类是系统帮我们动态生成的，其实现了我们的业务接口ILawSuit。</p>
+<h2><span id="cglib-de-dong-tai-dai-li-shi-xian">cglib的动态代理实现</span><a href="#cglib-de-dong-tai-dai-li-shi-xian" class="header-anchor">#</a></h2><p>由于JDK只能针对实现了接口的类做动态代理，而不能对没有实现接口的类做动态代理，所以cglib横空出世！CGLib（Code Generation Library）是一个强大、高性能的Code生成类库，它可以在程序运行期间动态扩展类或接口，它的底层是使用java字节码操作框架ASM实现。</p>
+]]></content>
+      <tags>
+        <tag>spring</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>spring学习笔记4：crud实例</title>
     <url>/2019/12/15/spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04%EF%BC%9Acrud%E5%AE%9E%E4%BE%8B/</url>
     <content><![CDATA[<center>crud实例</center>
