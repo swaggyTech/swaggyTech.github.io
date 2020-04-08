@@ -4,7 +4,6 @@
     <title>docker入门</title>
     <url>/2020/04/08/docker%E5%85%A5%E9%97%A8/</url>
     <content><![CDATA[<center>docker入门</center>
-
 <a id="more"></a>
 
 <!--toc-->
@@ -68,7 +67,7 @@
 </tr>
 </tbody></table>
 <p><a href="https://hub.docker.com/" target="_blank" rel="noopener">https://hub.docker.com/</a></p>
-<h3><span id="2-rong-qi-cao-zuo">2）、容器操作</span><a href="#2-rong-qi-cao-zuo" class="header-anchor">#</a></h3><p>软件镜像（QQ安装程序）—-运行镜像—-产生一个容器（正在运行的软件，运行的QQ）；</p>
+<h3><span id="2-rong-qi-cao-zuo">2）、容器操作</span><a href="#2-rong-qi-cao-zuo" class="header-anchor">#</a></h3><p>软件镜像—-运行镜像—-产生一个容器；</p>
 <p>步骤：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">1、搜索镜像</span><br><span class="line">[root@localhost ~]# docker search tomcat</span><br><span class="line">2、拉取镜像</span><br><span class="line">[root@localhost ~]# docker pull tomcat</span><br><span class="line">3、根据镜像启动容器</span><br><span class="line">docker run --name mytomcat -d tomcat:latest</span><br><span class="line">4、docker ps  </span><br><span class="line">查看运行中的容器</span><br><span class="line">5、 停止运行中的容器</span><br><span class="line">docker stop  容器的id</span><br><span class="line">6、查看所有的容器</span><br><span class="line">docker ps -a</span><br><span class="line">7、启动容器</span><br><span class="line">docker start 容器id</span><br><span class="line">8、删除一个容器</span><br><span class="line"> docker rm 容器id</span><br><span class="line">9、启动一个做了端口映射的tomcat</span><br><span class="line">[root@localhost ~]# docker run -d -p 8888:8080 tomcat</span><br><span class="line">-d：后台运行</span><br><span class="line">-p: 将主机的端口映射到容器的一个端口    主机端口:容器内部的端口</span><br><span class="line"></span><br><span class="line">10、为了演示简单关闭了linux的防火墙</span><br><span class="line">service firewalld status ；查看防火墙状态</span><br><span class="line">service firewalld stop：关闭防火墙</span><br><span class="line">11、查看容器的日志</span><br><span class="line">docker logs container-name/container-id</span><br></pre></td></tr></table></figure>
 
