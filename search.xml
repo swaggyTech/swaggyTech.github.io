@@ -3,9 +3,35 @@
   <entry>
     <title>短链接设计</title>
     <url>/2020/04/13/%E7%9F%AD%E9%93%BE%E6%8E%A5%E8%AE%BE%E8%AE%A1/</url>
-    <content><![CDATA[<a id="more"></a>
+    <content><![CDATA[<center>短链接设计</center>
 
-<!--toc-->
+<a id="more"></a>
+
+<div class="toc">
+
+<!-- toc -->
+
+<ul>
+<li><a href="#1-wei-shi-me-xu-yao-url-duan-lian-jie">1. 为什么需要URL短链接</a></li>
+<li><a href="#2-xi-tong-she-ji-yao-qiu-yu-mu-biao">2.系统设计要求与目标</a></li>
+<li><a href="#3-rong-liang-gu-suan-he-yue-shu">3.容量估算和约束</a></li>
+<li><a href="#4-xi-tong-apis">4.系统APIs</a></li>
+<li><a href="#5-shu-ju-ku-she-ji">5.数据库设计</a></li>
+<li><a href="#6-ji-ben-xi-tong-she-ji-yu-suan-fa">6.基本系统设计与算法</a><ul>
+<li><a href="#a-bian-ma-shi-ji-wang-zhi">a.编码实际网址</a></li>
+<li><a href="#b-chi-xian-sheng-cheng-mi-yao">b.离线生成密钥</a></li>
+</ul>
+</li>
+<li><a href="#7-shu-ju-fen-qu-he-fu-zhi">7.数据分区和复制</a></li>
+<li><a href="#8-huan-cun">8.缓存</a></li>
+<li><a href="#9-fu-zai-jun-heng-qi-lb">9.负载均衡器（LB）</a></li>
+<li><a href="#10-qing-chu-huo-shu-ju-ku-qing-li">10.清除或数据库清理</a></li>
+<li><a href="#11-yao-ce">11.遥测</a></li>
+<li><a href="#12-an-quan-xing-he-quan-xian">12.安全性和权限</a></li>
+</ul>
+<!-- tocstop -->
+
+</div>
 
 <h2><span id="1-wei-shi-me-xu-yao-url-duan-lian-jie">1. 为什么需要URL短链接</span><a href="#1-wei-shi-me-xu-yao-url-duan-lian-jie" class="header-anchor">#</a></h2><p>URL缩短用于为长URL创建较短的别名。 我们称这些简称为“短链接”。 当用户点击这些短链接时，他们将被重定向到原始URL。 短链接在显示，打印，发送消息或发布推文时可以节省大量空间。 此外，用户不太可能输错较短的URL。</p>
 <h2><span id="2-xi-tong-she-ji-yao-qiu-yu-mu-biao">2.系统设计要求与目标</span><a href="#2-xi-tong-she-ji-yao-qiu-yu-mu-biao" class="header-anchor">#</a></h2><p>我们的网址缩短系统应满足以下要求：</p>
@@ -161,7 +187,7 @@
 <p>我们可以将权限级别（公共/私有）与每个URL存储在数据库中。 我们还可以创建一个单独的表来存储有权查看特定URL的UserID。 如果用户没有权限并尝试访问URL，我们可以将错误（HTTP 401）发送回去。 假设我们将数据存储在像Cassandra这样的NoSQL宽列数据库中，则表存储权限的密钥将是“哈希”（或KGS生成的“密钥”）。 这些列将存储有权查看URL的那些用户的UserID。</p>
 ]]></content>
       <tags>
-        <tag>短链接;system design</tag>
+        <tag>system design</tag>
       </tags>
   </entry>
   <entry>
