@@ -3,7 +3,13 @@
   <entry>
     <title>lombok基础</title>
     <url>/2020/04/25/lombok%E5%9F%BA%E7%A1%80/</url>
-    <content><![CDATA[<h2><span id="lombok-ji-chu">lombok基础</span><a href="#lombok-ji-chu" class="header-anchor">#</a></h2><h3><span id="1-gai-shu">1.概述</span><a href="#1-gai-shu" class="header-anchor">#</a></h3><p>Lombok是一个 Java 工具，通过使用其定义的注解，自动生成常见的冗余代码，提升开发效率。</p>
+    <content><![CDATA[<center>lombok基础</center>
+
+<a id="more"></a>
+
+<!--toc-->
+
+<h2><span id="lombok-ji-chu">lombok基础</span><a href="#lombok-ji-chu" class="header-anchor">#</a></h2><h3><span id="1-gai-shu">1.概述</span><a href="#1-gai-shu" class="header-anchor">#</a></h3><p>Lombok是一个 Java 工具，通过使用其定义的注解，自动生成常见的冗余代码，提升开发效率。</p>
 <h3><span id="2-shi-xian-yuan-li">2.实现原理</span><a href="#2-shi-xian-yuan-li" class="header-anchor">#</a></h3><p>Lombok 的实现原理，基于 <a href="https://jcp.org/en/jsr/detail?id=269" target="_blank" rel="noopener">JSR269(Pluggable Annotation Processing API)</a> 规范，自定义编译器注解处理器，用于在 Javac 编译阶段时，扫描使用到 Lombok 定义的注解的类，进行自定义的代码生成。</p>
 <h3><span id="3-lombok-zhu-jie">3.lombok注解</span><a href="#3-lombok-zhu-jie" class="header-anchor">#</a></h3><p><code>@Getter</code>注解，添加在<strong>类</strong>或<strong>属性</strong>上，生成对应的 get 方法。</p>
 <p><code>@Setter</code>注解，添加在<strong>类</strong>或<strong>属性</strong>上，生成对应的 set 方法。</p>
