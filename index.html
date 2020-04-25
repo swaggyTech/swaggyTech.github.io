@@ -178,6 +178,100 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/25/lombok%E5%9F%BA%E7%A1%80/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="swaggyTech">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="翻个片马">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/04/25/lombok%E5%9F%BA%E7%A1%80/" class="post-title-link" itemprop="url">lombok基础</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-04-25 14:57:04 / 修改时间：15:12:35" itemprop="dateCreated datePublished" datetime="2020-04-25T14:57:04+08:00">2020-04-25</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/04/25/lombok%E5%9F%BA%E7%A1%80/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/04/25/lombok%E5%9F%BA%E7%A1%80/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2><span id="lombok-ji-chu">lombok基础</span><a href="#lombok-ji-chu" class="header-anchor">#</a></h2><h3><span id="1-gai-shu">1.概述</span><a href="#1-gai-shu" class="header-anchor">#</a></h3><p>Lombok是一个 Java 工具，通过使用其定义的注解，自动生成常见的冗余代码，提升开发效率。</p>
+<h3><span id="2-shi-xian-yuan-li">2.实现原理</span><a href="#2-shi-xian-yuan-li" class="header-anchor">#</a></h3><p>Lombok 的实现原理，基于 <a href="https://jcp.org/en/jsr/detail?id=269" target="_blank" rel="noopener">JSR269(Pluggable Annotation Processing API)</a> 规范，自定义编译器注解处理器，用于在 Javac 编译阶段时，扫描使用到 Lombok 定义的注解的类，进行自定义的代码生成。</p>
+<h3><span id="3-lombok-zhu-jie">3.lombok注解</span><a href="#3-lombok-zhu-jie" class="header-anchor">#</a></h3><p><code>@Getter</code>注解，添加在<strong>类</strong>或<strong>属性</strong>上，生成对应的 get 方法。</p>
+<p><code>@Setter</code>注解，添加在<strong>类</strong>或<strong>属性</strong>上，生成对应的 set 方法。</p>
+<p><code>@ToString</code>注解，添加在<strong>类</strong>上，生成 toString 方法。</p>
+<p><code>@EqualsAndHashCode</code>注解，添加在<strong>类</strong>上，生成 equals 和 hashCode 方法。</p>
+<p><code>@AllArgsConstructor</code>、<code>@RequiredArgsConstructor</code>、<code>@NoArgsConstructor</code> 注解，添加在<strong>类</strong>上，为类自动生成对应参数的构造方法。</p>
+<p><code>@Data</code>注解，添加在<strong>类</strong>上，是 5 个 Lombok 注解的组合。</p>
+<ul>
+<li>为所有属性，添加 <code>@Getter</code>、<code>@ToString</code>、<code>@EqualsAndHashCode</code> 注解的效果</li>
+<li>为非 <code>final</code> 修饰的属性，添加 <code>@Setter</code> 注解的效果</li>
+<li>为 <code>final</code> 修改的属性，添加 <code>@RequiredArgsConstructor</code> 注解的效果</li>
+</ul>
+<p><code>@Value</code> 注解，添加在<strong>类</strong>上，和 <code>@Data</code> 注解类似，区别在于它会把所有属性默认定义为 <code>private final</code> 修饰，所以不会生成 set 方法。</p>
+<p><code>@CommonsLog</code>、<code>@Flogger</code>、<code>@Log</code>、<code>@JBossLog</code>、<code>@Log4j</code>、<code>@Log4j2</code>、<code>@Slf4j</code>、<code>@Slf4jX</code>注解，添加在<strong>类</strong>上，自动为类添加对应的日志支持。因为 Spring Boot 使用 Slf4j 日志门面框架，所以绝大多数情况下，我们都是使用 <code>@Slf4j</code> 注解。</p>
+<p><code>@NonNull</code> 注解，添加在<strong>方法参数</strong>、<strong>类属性</strong>上，用于自动生成 <code>null</code> 参数检查。若确实是 <code>null</code> 时，抛出 NullPointerException 异常。</p>
+<p><code>@Cleanup</code> 注解，添加在方法中的<strong>局部变量</strong>上，在作用域结束时会自动调用 <code>#close()</code> 方法，来释放资源。例如说，使用在 Java IO 流操作的时候。</p>
+<p><code>@Builder</code> 注解，添加在<strong>类</strong>上，给该类加个构造者模式 Builder 内部类。</p>
+<p><code>@Synchronized</code> 注解，添加在<strong>方法</strong>上，添加同步锁。</p>
+<p><code>@SneakyThrows</code> 注解，添加在<strong>方法</strong>上，给该方法添加 <code>try catch</code> 代码块。</p>
+<p><code>@Accessors</code> 注解，添加在<strong>方法</strong>或<strong>属性</strong>上，并设置 <code>chain = true</code>，实现链式编程。</p>
+<h3><span id="can-kao">参考：</span><a href="#can-kao" class="header-anchor">#</a></h3><p><a href="https://projectlombok.org/features/all" target="_blank" rel="noopener">Lombok features</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/25/springboot%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE%E5%8E%9F%E7%90%86/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -946,86 +1040,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/29/spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B07%EF%BC%9AJDBCTemplate/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="swaggyTech">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="翻个片马">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/12/29/spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B07%EF%BC%9AJDBCTemplate/" class="post-title-link" itemprop="url">spring学习笔记：JDBCTemplate</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2019-12-29 15:53:33 / 修改时间：17:32:28" itemprop="dateCreated datePublished" datetime="2019-12-29T15:53:33+08:00">2019-12-29</time>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2019/12/29/spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B07%EF%BC%9AJDBCTemplate/#comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2019/12/29/spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B07%EF%BC%9AJDBCTemplate/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <center>JDBCTemplate</center>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/12/29/spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B07%EF%BC%9AJDBCTemplate/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1098,7 +1112,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-count">18</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1111,7 +1125,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
