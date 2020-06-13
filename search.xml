@@ -3,7 +3,13 @@
   <entry>
     <title>python正则表达式</title>
     <url>/2020/06/13/python%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
-    <content><![CDATA[<h2><span id="ji-ben-yong-fa">基本用法</span><a href="#ji-ben-yong-fa" class="header-anchor">#</a></h2><p><a href="https://c.runoob.com/front-end/854" target="_blank" rel="noopener">在线正则匹配网址</a></p>
+    <content><![CDATA[<center>python正则表达式基础</center>
+
+<a id="more"></a>
+
+<!--toc-->
+
+<h2><span id="ji-ben-yong-fa">基本用法</span><a href="#ji-ben-yong-fa" class="header-anchor">#</a></h2><p><a href="https://c.runoob.com/front-end/854" target="_blank" rel="noopener">在线正则匹配网址</a></p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#! python</span></span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line">phoneNumRegex = re.compile(<span class="string">r'\d\d\d-\d\d\d-\d\d\d\d'</span>)</span><br><span class="line">mo = phoneNumRegex.search(<span class="string">'My number is 415-555-4242.'</span>)</span><br><span class="line">print(mo.group())</span><br></pre></td></tr></table></figure>
 
 <h3><span id="li-yong-gua-hao-fen-zu">利用括号分组</span><a href="#li-yong-gua-hao-fen-zu" class="header-anchor">#</a></h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 匹配括号</span></span><br><span class="line">phoneNumRegex1 = re.compile(<span class="string">r'(\(\d\d\d\))(\d\d\d-\d\d\d)'</span>)  <span class="comment"># 转义字符</span></span><br><span class="line">mo1 = phoneNumRegex1.search(<span class="string">'my phone number is (415)555-4242'</span>)</span><br><span class="line">print(mo1.group(<span class="number">1</span>))</span><br><span class="line">print(mo1.group(<span class="number">2</span>))</span><br><span class="line">print(mo1.group())</span><br></pre></td></tr></table></figure>
@@ -39,7 +45,9 @@
   <entry>
     <title>五大常用算法</title>
     <url>/2020/05/26/%E4%BA%94%E5%A4%A7%E5%B8%B8%E7%94%A8%E7%AE%97%E6%B3%95/</url>
-    <content><![CDATA[<a id="more"></a>
+    <content><![CDATA[<center>五大常用算法</center>
+
+<a id="more"></a>
 
 <!--toc-->
 
@@ -109,7 +117,13 @@
   <entry>
     <title>DFS与BFS</title>
     <url>/2020/05/23/DFS%E4%B8%8EBFS/</url>
-    <content><![CDATA[<h2><span id="dfs">DFS</span><a href="#dfs" class="header-anchor">#</a></h2><p>DFS（Depth First Search）深度优先搜索是从起始顶点开始，<strong>递归访问</strong>其所有邻近节点，比如A节点是其第一个邻近节点，而B节点又是A的一个邻近节点，则DFS访问A节点后再访问B节点，如果B节点有未访问的邻近节点的话将继续访问其邻近节点，否则继续访问A的未访问邻近节点，当所有从A节点出去的路径都访问完之后，继续递归访问除A以外未被访问的邻近节点。</p>
+    <content><![CDATA[<center>DFS与BFS对比</center>
+
+<a id="more"></a>
+
+<!--toc-->
+
+<h2><span id="dfs">DFS</span><a href="#dfs" class="header-anchor">#</a></h2><p>DFS（Depth First Search）深度优先搜索是从起始顶点开始，<strong>递归访问</strong>其所有邻近节点，比如A节点是其第一个邻近节点，而B节点又是A的一个邻近节点，则DFS访问A节点后再访问B节点，如果B节点有未访问的邻近节点的话将继续访问其邻近节点，否则继续访问A的未访问邻近节点，当所有从A节点出去的路径都访问完之后，继续递归访问除A以外未被访问的邻近节点。</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">(HashMap&lt;Character , LinkedList&lt;Character&gt;&gt; graph,HashMap&lt;Character, Boolean&gt; visited)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    visit(graph, visited, <span class="string">'u'</span>);<span class="comment">//为了和图中的顺序一样，我认为控制了DFS先访问u节点</span></span><br><span class="line">    visit(graph,visited,<span class="string">'w'</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">visit</span><span class="params">(HashMap&lt;Character , LinkedList&lt;Character&gt;&gt; graph,HashMap&lt;Character, Boolean&gt; visited,<span class="keyword">char</span> start)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!visited.containsKey(start))</span><br><span class="line">    &#123;</span><br><span class="line">        count++;</span><br><span class="line">        System.out.println(<span class="string">"The time into element "</span>+start+<span class="string">":"</span>+count);<span class="comment">//记录进入该节点的时间</span></span><br><span class="line">        visited.put(start, <span class="keyword">true</span>);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">char</span> c : graph.get(start)) </span><br><span class="line">        &#123;</span><br><span class="line">        <span class="keyword">if</span>(!visited.containsKey(c))</span><br><span class="line">        &#123;</span><br><span class="line">            visit(graph,visited,c);<span class="comment">//递归访问其邻近节点</span></span><br><span class="line">        &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        count++;</span><br><span class="line">        System.out.println(<span class="string">"The time out element "</span>+start+<span class="string">":"</span>+count);<span class="comment">//记录离开该节点的时间</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
