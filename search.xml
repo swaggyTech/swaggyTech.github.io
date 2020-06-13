@@ -37,6 +37,16 @@
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 贪心形式  （5个）</span></span><br><span class="line">greadyHaRegex = re.compile(<span class="string">r'(Ha)&#123;3,5&#125;'</span>)</span><br><span class="line">mo1 = greadyHaRegex.search(<span class="string">'HaHaHaHaHa'</span>)</span><br><span class="line">print(mo1.group())</span><br><span class="line"></span><br><span class="line"><span class="comment"># 非贪心形式 (3个)</span></span><br><span class="line">greadyHaRegex = re.compile(<span class="string">r'(Ha)&#123;3,5&#125;?'</span>)</span><br><span class="line">mo1 = greadyHaRegex.search(<span class="string">'HaHaHaHaHa'</span>)</span><br><span class="line">print(mo1.group())</span><br></pre></td></tr></table></figure>
 
 <p>？在正则表达式中有两种含义：声明非贪心匹配或表示可选的分组</p>
+<h2><span id="findall-fang-fa">findall()方法</span><a href="#findall-fang-fa" class="header-anchor">#</a></h2><p>search()方法返回一个Match对象，包含被查找字符串中的<strong>第一次</strong>匹配的文本</p>
+<p>findall()返回一串字符串，包含被查找字符串中所有匹配，返回一个字符串列表</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># search findall对比</span></span><br><span class="line">phoneNumregex = re.compile(<span class="string">r'\d\d\d-\d\d\d-\d\d\d\d'</span>)</span><br><span class="line">mo = phoneNumregex.search(<span class="string">'cell:415-555-9999 work : 212-555-0000'</span>)</span><br><span class="line">print(mo.group())  <span class="comment"># 415-555-9999</span></span><br><span class="line">mo = phoneNumregex.findall(<span class="string">'cell:415-555-9999 work : 212-555-0000'</span>)</span><br><span class="line">print(mo)  <span class="comment"># ['415-555-9999', '212-555-0000']</span></span><br></pre></td></tr></table></figure>
+
+<p>如果正则表达式中有分组，findall()将返回元组的列表，每个元组表示一个找到的匹配，其中的项就是每个分组的匹配字符串</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># findall返回元组列表</span></span><br><span class="line">phoneNumregex = re.compile(<span class="string">r'(\d\d\d)-(\d\d\d)-(\d\d\d\d)'</span>)</span><br><span class="line">mo = phoneNumregex.findall(<span class="string">'Cell:415-555-9999 work:212-555-0000'</span>)</span><br><span class="line">print(mo)  <span class="comment"># [('415', '555', '9999'), ('212', '555', '0000')]</span></span><br><span class="line">print(type(mo))  <span class="comment"># &lt;class 'list'&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>作为findall()方法的返回结果的总结，请记住下面两点： </p>
+<p>1．如果调用在一个没有分组的正则表达式上，例如\d\d\d-\d\d\d-\d\d\d\d，方法findall()将返回一个匹配字符串的列表，例如[‘415-555-9999’, ‘212-555-0000’]。 </p>
+<p>2．如果调用在一个有分组的正则表达式上，例如(\d\d\d)-(\d\d\d)-(\d\d\d\d)，方法findall()将返回一个字符串的元组的列表（每个分组对应一个字符串），例如[(‘415’, ‘555’, ‘1122’), (‘212’, ‘555’, ‘0000’)]。</p>
 ]]></content>
       <tags>
         <tag>python</tag>
