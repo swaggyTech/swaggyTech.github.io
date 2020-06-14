@@ -178,6 +178,98 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/14/python%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="swaggyTech">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="翻个片马">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/06/14/python%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/" class="post-title-link" itemprop="url">python文件操作</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-06-14 17:25:57 / 修改时间：18:18:59" itemprop="dateCreated datePublished" datetime="2020-06-14T17:25:57+08:00">2020-06-14</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/06/14/python%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/06/14/python%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <a id="more"></a>
+
+<!--toc-->
+
+<h2><span id="lu-jing-biao-shi">路径表示</span><a href="#lu-jing-biao-shi" class="header-anchor">#</a></h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line">path = os.path.join(<span class="string">'usr'</span>, <span class="string">'bin'</span>, <span class="string">'spam'</span>)</span><br><span class="line">print(path)  <span class="comment"># usr\bin\spam</span></span><br></pre></td></tr></table></figure>
+
+<h3><span id="dang-qian-gong-zuo-mu-lu">当前工作目录</span><a href="#dang-qian-gong-zuo-mu-lu" class="header-anchor">#</a></h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cwd = os.getcwd()</span><br><span class="line">print(cwd)  <span class="comment"># G:\autoPython\fileOperate</span></span><br><span class="line"></span><br><span class="line">os.chdir()  <span class="comment"># 改变工作目录</span></span><br></pre></td></tr></table></figure>
+
+<h3><span id="jue-dui-lu-jing-yu-xiang-dui-lu-jing">绝对路径与相对路径</span><a href="#jue-dui-lu-jing-yu-xiang-dui-lu-jing" class="header-anchor">#</a></h3><p>“绝对路径”，总是从根文件夹开始。</p>
+<p>“相对路径”，它相对于程序的当前工作目录。</p>
+<p>.    这个目录</p>
+<p>..   父文件夹</p>
+<h3><span id="chuang-jian-xin-wen-jian-jia">创建新文件夹</span><a href="#chuang-jian-xin-wen-jian-jia" class="header-anchor">#</a></h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">os.makedirs()</span><br></pre></td></tr></table></figure>
+
+<h3><span id="chu-li-jue-dui-xiang-dui-lu-jing">处理绝对相对路径</span><a href="#chu-li-jue-dui-xiang-dui-lu-jing" class="header-anchor">#</a></h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">os.path.abspath(<span class="string">'.'</span>)</span><br><span class="line">os.path.abspath(<span class="string">'.\\Scripts'</span>)</span><br><span class="line">os.path.isabs(<span class="string">'.'</span>)</span><br><span class="line">os.path.isabs(os.path.abspath(<span class="string">'.'</span>))</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">os.path.relpath(<span class="string">'C:\\Windows'</span>, <span class="string">'C:\\'</span>)   <span class="comment"># 'Windows' </span></span><br><span class="line">os.path.relpath(<span class="string">'C:\\Windows'</span>, <span class="string">'C:\\spam\\eggs'</span>)  <span class="comment"># '..\\..\\Windows' </span></span><br><span class="line">os.getcwd()  <span class="comment"># 'C:\\Python34'</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/13/python%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -209,7 +301,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-06-14 15:31:33" itemprop="dateModified" datetime="2020-06-14T15:31:33+08:00">2020-06-14</time>
+                <time title="修改时间：2020-06-14 16:22:20" itemprop="dateModified" datetime="2020-06-14T16:22:20+08:00">2020-06-14</time>
               </span>
 
           
@@ -935,86 +1027,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/08/docker%E5%85%A5%E9%97%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="swaggyTech">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="翻个片马">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/04/08/docker%E5%85%A5%E9%97%A8/" class="post-title-link" itemprop="url">docker入门</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-04-08 15:32:25 / 修改时间：17:49:57" itemprop="dateCreated datePublished" datetime="2020-04-08T15:32:25+08:00">2020-04-08</time>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2020/04/08/docker%E5%85%A5%E9%97%A8/#comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/04/08/docker%E5%85%A5%E9%97%A8/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <center>docker入门</center>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/04/08/docker%E5%85%A5%E9%97%A8/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1087,7 +1099,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-count">23</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

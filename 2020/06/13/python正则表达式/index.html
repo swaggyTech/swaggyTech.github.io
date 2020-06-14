@@ -56,7 +56,7 @@
 <meta property="og:description" content="python正则表达式基础">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-06-13T03:03:33.000Z">
-<meta property="article:modified_time" content="2020-06-14T07:31:33.877Z">
+<meta property="article:modified_time" content="2020-06-14T08:22:20.576Z">
 <meta property="article:author" content="swaggyTech">
 <meta property="article:tag" content="python">
 <meta name="twitter:card" content="summary">
@@ -213,7 +213,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-06-14 15:31:33" itemprop="dateModified" datetime="2020-06-14T15:31:33+08:00">2020-06-14</time>
+                <time title="修改时间：2020-06-14 16:22:20" itemprop="dateModified" datetime="2020-06-14T16:22:20+08:00">2020-06-14</time>
               </span>
 
           
@@ -224,7 +224,7 @@
               <span class="post-meta-item-text">阅读次数：</span>
               <span id="busuanzi_value_page_pv"></span>
               <span class="post-meta-divider">|</span>
-              <span title="post.wordcount"><span class="post-meta-item-icon"><i class="fa fa-file-word-o"></i></span>字数： 2.4k</span>
+              <span title="post.wordcount"><span class="post-meta-item-icon"><i class="fa fa-file-word-o"></i></span>字数： 2.5k</span>
 
             </span>
   
@@ -255,7 +255,38 @@
 
 <a id="more"></a>
 
-<!--toc-->
+<div class="toc">
+
+<!-- toc -->
+
+<ul>
+<li><a href="#ji-ben-yong-fa">基本用法</a><ul>
+<li><a href="#li-yong-gua-hao-fen-zu">利用括号分组</a></li>
+<li><a href="#guan-dao-pi-pei-duo-ge-fen-zu">管道匹配多个分组</a></li>
+<li><a href="#wen-hao-shi-xian-ke-xuan-pi-pei">问号实现可选匹配</a></li>
+<li><a href="#hao-pi-pei-0-ci-huo-duo-ci">*号匹配0次或多次</a></li>
+<li><a href="#hao-pi-pei-1-ci-huo-duo-ci">+号匹配1次或多次</a></li>
+<li><a href="#pi-pei-te-ding-ci-shu">｛｝匹配特定次数</a></li>
+</ul>
+</li>
+<li><a href="#tan-xin-yu-fei-tan-xin-pi-pei">贪心与非贪心匹配</a></li>
+<li><a href="#findall-fang-fa">findall()方法</a></li>
+<li><a href="#zi-fu-fen-lei">字符分类</a></li>
+<li><a href="#jian-li-zi-ji-de-zi-fu-fen-lei">建立自己的字符分类</a></li>
+<li><a href="#cha-ru-zi-fu-kai-shi-he-mei-yuan-zi-fu-jie-shu">插入字符（开始）和美元字符（结束）</a></li>
+<li><a href="#tong-pei-zi-fu">通配字符 .</a><ul>
+<li><a href="#pi-pei-suo-you-zi-fu">匹配所有字符 .*</a></li>
+<li><a href="#pi-pei-huan-xing">.匹配换行</a></li>
+</ul>
+</li>
+<li><a href="#fu-hao-fu-xi">符号复习</a></li>
+<li><a href="#bu-qu-fen-da-xiao-xie">不区分大小写</a></li>
+<li><a href="#ti-huan-zi-fu-chuan-sub">替换字符串 sub()</a></li>
+<li><a href="#guan-li-fu-za-zheng-ze">管理复杂正则</a></li>
+</ul>
+<!-- tocstop -->
+
+</div>
 
 <h2><span id="ji-ben-yong-fa">基本用法</span><a href="#ji-ben-yong-fa" class="header-anchor">#</a></h2><p><a href="https://c.runoob.com/front-end/854" target="_blank" rel="noopener">在线正则匹配网址</a></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#! python</span></span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line">phoneNumRegex = re.compile(<span class="string">r'\d\d\d-\d\d\d-\d\d\d\d'</span>)</span><br><span class="line">mo = phoneNumRegex.search(<span class="string">'My number is 415-555-4242.'</span>)</span><br><span class="line">print(mo.group())</span><br></pre></td></tr></table></figure>
@@ -404,7 +435,10 @@
     <a href="/2020/05/26/%E4%BA%94%E5%A4%A7%E5%B8%B8%E7%94%A8%E7%AE%97%E6%B3%95/" rel="prev" title="五大常用算法">
       <i class="fa fa-chevron-left"></i> 五大常用算法
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2020/06/14/python%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/" rel="next" title="python文件操作">
+      python文件操作 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -482,7 +516,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-count">23</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

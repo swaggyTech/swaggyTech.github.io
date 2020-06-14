@@ -1,13 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>python文件操作</title>
+    <url>/2020/06/14/python%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/</url>
+    <content><![CDATA[<a id="more"></a>
+
+<!--toc-->
+
+<h2><span id="lu-jing-biao-shi">路径表示</span><a href="#lu-jing-biao-shi" class="header-anchor">#</a></h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line">path = os.path.join(<span class="string">'usr'</span>, <span class="string">'bin'</span>, <span class="string">'spam'</span>)</span><br><span class="line">print(path)  <span class="comment"># usr\bin\spam</span></span><br></pre></td></tr></table></figure>
+
+<h3><span id="dang-qian-gong-zuo-mu-lu">当前工作目录</span><a href="#dang-qian-gong-zuo-mu-lu" class="header-anchor">#</a></h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">cwd = os.getcwd()</span><br><span class="line">print(cwd)  <span class="comment"># G:\autoPython\fileOperate</span></span><br><span class="line"></span><br><span class="line">os.chdir()  <span class="comment"># 改变工作目录</span></span><br></pre></td></tr></table></figure>
+
+<h3><span id="jue-dui-lu-jing-yu-xiang-dui-lu-jing">绝对路径与相对路径</span><a href="#jue-dui-lu-jing-yu-xiang-dui-lu-jing" class="header-anchor">#</a></h3><p>“绝对路径”，总是从根文件夹开始。</p>
+<p>“相对路径”，它相对于程序的当前工作目录。</p>
+<p>.    这个目录</p>
+<p>..   父文件夹</p>
+<h3><span id="chuang-jian-xin-wen-jian-jia">创建新文件夹</span><a href="#chuang-jian-xin-wen-jian-jia" class="header-anchor">#</a></h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">os.makedirs()</span><br></pre></td></tr></table></figure>
+
+<h3><span id="chu-li-jue-dui-xiang-dui-lu-jing">处理绝对相对路径</span><a href="#chu-li-jue-dui-xiang-dui-lu-jing" class="header-anchor">#</a></h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">os.path.abspath(<span class="string">'.'</span>)</span><br><span class="line">os.path.abspath(<span class="string">'.\\Scripts'</span>)</span><br><span class="line">os.path.isabs(<span class="string">'.'</span>)</span><br><span class="line">os.path.isabs(os.path.abspath(<span class="string">'.'</span>))</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">os.path.relpath(<span class="string">'C:\\Windows'</span>, <span class="string">'C:\\'</span>)   <span class="comment"># 'Windows' </span></span><br><span class="line">os.path.relpath(<span class="string">'C:\\Windows'</span>, <span class="string">'C:\\spam\\eggs'</span>)  <span class="comment"># '..\\..\\Windows' </span></span><br><span class="line">os.getcwd()  <span class="comment"># 'C:\\Python34'</span></span><br></pre></td></tr></table></figure>
+
+
+
+]]></content>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>python正则表达式</title>
     <url>/2020/06/13/python%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
     <content><![CDATA[<center>python正则表达式基础</center>
 
 <a id="more"></a>
 
-<!--toc-->
+<div class="toc">
+
+<!-- toc -->
+
+<ul>
+<li><a href="#ji-ben-yong-fa">基本用法</a><ul>
+<li><a href="#li-yong-gua-hao-fen-zu">利用括号分组</a></li>
+<li><a href="#guan-dao-pi-pei-duo-ge-fen-zu">管道匹配多个分组</a></li>
+<li><a href="#wen-hao-shi-xian-ke-xuan-pi-pei">问号实现可选匹配</a></li>
+<li><a href="#hao-pi-pei-0-ci-huo-duo-ci">*号匹配0次或多次</a></li>
+<li><a href="#hao-pi-pei-1-ci-huo-duo-ci">+号匹配1次或多次</a></li>
+<li><a href="#pi-pei-te-ding-ci-shu">｛｝匹配特定次数</a></li>
+</ul>
+</li>
+<li><a href="#tan-xin-yu-fei-tan-xin-pi-pei">贪心与非贪心匹配</a></li>
+<li><a href="#findall-fang-fa">findall()方法</a></li>
+<li><a href="#zi-fu-fen-lei">字符分类</a></li>
+<li><a href="#jian-li-zi-ji-de-zi-fu-fen-lei">建立自己的字符分类</a></li>
+<li><a href="#cha-ru-zi-fu-kai-shi-he-mei-yuan-zi-fu-jie-shu">插入字符（开始）和美元字符（结束）</a></li>
+<li><a href="#tong-pei-zi-fu">通配字符 .</a><ul>
+<li><a href="#pi-pei-suo-you-zi-fu">匹配所有字符 .*</a></li>
+<li><a href="#pi-pei-huan-xing">.匹配换行</a></li>
+</ul>
+</li>
+<li><a href="#fu-hao-fu-xi">符号复习</a></li>
+<li><a href="#bu-qu-fen-da-xiao-xie">不区分大小写</a></li>
+<li><a href="#ti-huan-zi-fu-chuan-sub">替换字符串 sub()</a></li>
+<li><a href="#guan-li-fu-za-zheng-ze">管理复杂正则</a></li>
+</ul>
+<!-- tocstop -->
+
+</div>
 
 <h2><span id="ji-ben-yong-fa">基本用法</span><a href="#ji-ben-yong-fa" class="header-anchor">#</a></h2><p><a href="https://c.runoob.com/front-end/854" target="_blank" rel="noopener">在线正则匹配网址</a></p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#! python</span></span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line">phoneNumRegex = re.compile(<span class="string">r'\d\d\d-\d\d\d-\d\d\d\d'</span>)</span><br><span class="line">mo = phoneNumRegex.search(<span class="string">'My number is 415-555-4242.'</span>)</span><br><span class="line">print(mo.group())</span><br></pre></td></tr></table></figure>
