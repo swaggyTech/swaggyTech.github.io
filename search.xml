@@ -1,6 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>python web抓取信息</title>
+    <url>/2020/06/17/python-web%E6%8A%93%E5%8F%96%E4%BF%A1%E6%81%AF/</url>
+    <content><![CDATA[<a id="more"></a>
+
+<!--toc-->
+
+<ul>
+<li>webbrowser：是Python自带的，打开浏览器获取指定页面。 </li>
+<li>requests：从因特网上下载文件和网页。 </li>
+<li>Beautiful Soup：解析HTML，即网页编写的格式。 </li>
+<li>selenium：启动并控制一个Web浏览器。selenium能够填写表单，并模拟鼠标在这个浏览器中点击。</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>python文件操作</title>
     <url>/2020/06/14/python%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/</url>
     <content><![CDATA[<a id="more"></a>
