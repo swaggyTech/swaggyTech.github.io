@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.1.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-mac-osx.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.6.0',
+    exturl: false,
+    sidebar: {"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="编程规约#命名风格# POJO类中布尔类型变量都不要加is前缀，否则部分框架解析会引起序列化错误。 说明：MySQL规约中的建表约定第一条，表达是与否的值采用is_xxx的命名方式，所以，需要在&lt;resultMAP&gt;设置从is_xxx到xxx的映射关系 反例：定义为基本数据类型 Boolean isDeleted 的属性，它的方法也是 isDeleted()，RPC 框架在反向">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java开发手册">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;06&#x2F;21&#x2F;Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C&#x2F;index.html">
+<meta property="og:site_name" content="翻个片马">
+<meta property="og:description" content="编程规约#命名风格# POJO类中布尔类型变量都不要加is前缀，否则部分框架解析会引起序列化错误。 说明：MySQL规约中的建表约定第一条，表达是与否的值采用is_xxx的命名方式，所以，需要在&lt;resultMAP&gt;设置从is_xxx到xxx的映射关系 反例：定义为基本数据类型 Boolean isDeleted 的属性，它的方法也是 isDeleted()，RPC 框架在反向">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-06-21T08:20:48.000Z">
+<meta property="article:modified_time" content="2020-06-21T09:55:25.866Z">
+<meta property="article:author" content="swaggyTech">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2020/06/21/Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>Java开发手册 | 翻个片马</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">翻个片马</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/21/Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="swaggyTech">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="翻个片马">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Java开发手册
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-06-21 16:20:48 / 修改时间：17:55:25" itemprop="dateCreated datePublished" datetime="2020-06-21T16:20:48+08:00">2020-06-21</time>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+              <span class="post-meta-divider">|</span>
+              <span title="post.wordcount"><span class="post-meta-item-icon"><i class="fa fa-file-word-o"></i></span>字数： 2.9k</span>
+
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/06/21/Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/06/21/Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <a id="more"></a>
+
+<!--toc-->
+
+<h1><span id="bian-cheng-gui-yue">编程规约</span><a href="#bian-cheng-gui-yue" class="header-anchor">#</a></h1><h2><span id="ming-ming-feng-ge">命名风格</span><a href="#ming-ming-feng-ge" class="header-anchor">#</a></h2><ul>
+<li><p>POJO类中布尔类型变量都不要加is前缀，否则部分框架解析会引起序列化错误。</p>
+<p>说明：MySQL规约中的建表约定第一条，表达是与否的值采用is_xxx的命名方式，所以，需要在&lt;resultMAP&gt;设置从is_xxx到xxx的映射关系</p>
+<p>反例：定义为基本数据类型 Boolean isDeleted 的属性，它的方法也是 isDeleted()，RPC 框架在反向解析的时候，“误以为” 对应的属性名称是 deleted，导致属性获取不到，进而抛出异常。  </p>
+</li>
+<li><p>避免在子父类的成员变量之间，或者不同代码块的局部变量之间采用 完全相同的命名 ，使其可读性降低</p>
+<p>说明：子类、父类成员变量名相同，即使是public类型的变量也是能够通过编译，而局部变量在同一方法内的不同代码块中同名也是合法的，但是要避免使用。对于非setter/getter的参数名称也要避免与成员变量名称相同。</p>
+<p>反例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConfusingName</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> age;</span><br><span class="line">    <span class="comment">// 非 setter/getter 的参数名称，不允许与本类成员变量同名</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getData</span><span class="params">(String alibaba)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">if</span>(condition) &#123;</span><br><span class="line">            <span class="keyword">final</span> <span class="keyword">int</span> money = <span class="number">531</span>;</span><br><span class="line">            <span class="comment">// ...</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">            <span class="comment">// 在同一方法体中，不允许与其它代码块中的 money 命名相同</span></span><br><span class="line">            <span class="keyword">final</span> <span class="keyword">int</span> money = <span class="number">615</span>;</span><br><span class="line">            <span class="comment">// ...</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Son</span> <span class="keyword">extends</span> <span class="title">ConfusingName</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 不允许与父类的成员变量名称相同</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> age;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>杜绝完全不规范的缩写，避免望文不止义</p>
+<p>反例：AbstractClass“缩写” 命名成 AbsClass；condition“缩写” 命名成 condi，此类随意缩写严重降低了代码的可阅读性。  </p>
+</li>
+<li><p>为了达到代码自解释的目标，任何自定义的编程 元素在命名时，使用尽量完整的单词组合来表达其意。</p>
+<p>正例：JDK中，表达原子更新的类名为：AtomicReferenceFieldUpdater。</p>
+<p>反例：int a的随意命名方式</p>
+</li>
+<li><p>在常量与变量的命名时，表示类型的名词放在词尾，以提升辨识度</p>
+<p>正例：startTime / workQueue / nameList / TERMINATED_THREAD_COUNT  </p>
+<p>反例：startedAt / QueueOfWork / listName / COUNT_TERMINATED_THREAD</p>
+</li>
+<li><p>如果模块、接口、类、方法使用了设计模式，在命名 时需体现出具体模式。</p>
+<p>说明：将设计模式体现在名字里，有利于阅读者快速理解架构设计理念</p>
+<p>正例： public class OrderFactory;</p>
+<pre><code>public class LoginProxy;
+public class ResourceObserver;  </code></pre></li>
+<li><p>接口类中的方法和属性不要加任何修饰符号（public也不要），保持代码的简洁性，并加上有效的javadoc注释，尽量不要在接口里定义变量，如果一定要定义变量，肯定与接口方法相关，并且是整个应用的基础常量。</p>
+<p>正例：接口方法签名 void commit();</p>
+<pre><code>接口基础常量 String COMPANY = &quot;alibaba&quot;;  </code></pre><p>反例：接口方法定义 public abstract void f();  </p>
+<p>说明：JDK8中接口允许有默认实现，那么这个default方法，是对所有实现类都有价值的默认实现。</p>
+</li>
+<li><p>接口和实现类的命名有两套规则：</p>
+<p>1) 对于Service和DAO类，基于SOA的理念，暴露出来的服务一定是接口，内部的实现类用Impl的后缀与接口区别。</p>
+<p>正例：CacheServiceImpl 实现 CacheService 接口。  </p>
+<p>2) 如果是形容能力的接口名称，取对应的形容词为接口名(通常是-able的形容词)。</p>
+<p>正例：AbstractTranslator 实现 Translatable 接口  </p>
+</li>
+<li><p>枚举类名带上Enum后缀，枚举成员名称需要全大写，单词间用下划线隔开。</p>
+<p>说明：枚举其实就是特殊的类，域成员均为常量，且构造方法被默认为强制是私有的。</p>
+<p>正例：枚举名字为ProcessStatusEnum的成员名称：SUCCESS/UNKNOWN_REASON。</p>
+</li>
+<li><p>各层命名规范：</p>
+<p>A) Service/DAO 层方法命名规约</p>
+<pre><code>1） 获取单个对象的方法用 get 做前缀。
+2） 获取多个对象的方法用 list 做前缀，复数形式结尾如：listObjects。
+3） 获取统计值的方法用 count 做前缀。
+4） 插入的方法用 save/insert 做前缀。
+5） 删除的方法用 remove/delete 做前缀。
+6） 修改的方法用 update 做前缀。</code></pre><p>B) 领域模型命名规约</p>
+<pre><code>1） 数据对象：xxxDO，xxx 即为数据表名。
+2） 数据传输对象：xxxDTO，xxx 为业务领域相关的名称。
+3） 展示对象：xxxVO，xxx 一般为网页名称。
+4） POJO 是 DO/DTO/BO/VO 的统称，**禁止**命名成 xxxPOJO。  </code></pre></li>
+</ul>
+<h2><span id="chang-liang-ding-yi">常量定义</span><a href="#chang-liang-ding-yi" class="header-anchor">#</a></h2><ol>
+<li><p>不允许任何魔法值（即未经预先定义的常量）直接出现在代码中。</p>
+<p>反例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">String key = <span class="string">"Id#taobao_"</span> + tradeId;</span><br><span class="line">cache.put(key, value);</span><br><span class="line"><span class="comment">// 缓存 get 时，由于在代码复制时，漏掉下划线，导致缓存击穿而出现问题</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在long或者Long赋值时，数值后使用大写的L，不能是小写的l，小写易与1混淆，造成误解</p>
+</li>
+<li><p>不要使用一个常量类维护所有的常量，要按常量功能进行归类，分开维护</p>
+<p>说明：大而全的常量类，杂乱无章，使用查找功能才能定位到修改的常量，不利于理解和维护</p>
+<p>正例：缓存相关常量放在类CacheConsts下，系统配置相关的常量放在ConfigConsts下</p>
+</li>
+<li><p>常量的复用层次有五层：跨应用共享常量、应用内共享常量、子工程内共享常量、包内共享常量、类内共享常量</p>
+<p>1） 跨应用共享常量：放置在二方库中，通常是 client.jar 中的 constant 目录下。<br>2） 应用内共享常量：放置在一方库中，通常是子模块中的 constant 目录下。</p>
+<pre><code>反例：易懂变量也要统一定义成应用内共享常量，两位工程师在两个类中分别定义了“YES” 的变量：
+类 A 中：public static final String YES = &quot;yes&quot;;
+类 B 中：public static final String YES = &quot;y&quot;;
+A.YES.equals(B.YES)，预期是 true，但实际返回为 false，导致线上问题。</code></pre><p>3） 子工程内部共享常量：即在当前子工程的 constant 目录下。<br>4） 包内共享常量：即在当前包下单独的 constant 目录下。<br>5） 类内共享常量：直接在类内部 private static final 定义。  </p>
+</li>
+<li><p>如果变量值仅在一个固定范围内变化用enum类型来定义。</p>
+<p>说明：如果存在名称之外的延伸属性应使用 enum 类型，下面正例中的数字就是延伸信息，表示一年中的第几个季节。  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> SeasonEnum &#123;</span><br><span class="line">    SPRING(<span class="number">1</span>), SUMMER(<span class="number">2</span>), AUTUMN(<span class="number">3</span>), WINTER(<span class="number">4</span>);</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> seq;</span><br><span class="line">    SeasonEnum(<span class="keyword">int</span> seq) &#123;</span><br><span class="line">    	<span class="keyword">this</span>.seq = seq;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getSeq</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    	<span class="keyword">return</span> seq;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h2><span id="dai-ma-ge-shi">代码格式</span><a href="#dai-ma-ge-shi" class="header-anchor">#</a></h2><ol>
+<li><p>如果大括号内为空，则简洁的写成{}即可，大括号中间无需换行和空格；如果是非空代码块则：</p>
+<p>1） 左大括号前不换行。  </p>
+<p>2） 左大括号后换行。  </p>
+<p>3） 右大括号前换行。  </p>
+<p>4） 右大括号后还有 else 等代码则不换行；表示终止的右大括号后必须换行。  </p>
+</li>
+<li><p>左小括号和字符之间不出现空格；同样，右小括号和字符之间也不出现空格；而左大括号前需要空格，详见第5条</p>
+<p>反例：if (空格 a == b 空格)  </p>
+</li>
+<li><p>if/for/while/switch/do 等保留字与括号之间都必须加空格。  </p>
+</li>
+<li><p>任何二目、 三目运算符的左右两边都需要加一个空格 。</p>
+<p>说明：运算符包括赋值运算符=、逻辑运算符&amp;&amp;、加减乘除符号等  </p>
+</li>
+<li><p>采用 4 个空格缩进，禁止使用 tab 字符。  </p>
+<p>说明：如果使用 tab 缩进，必须设置 1 个 tab 为 4 个空格。 IDEA 设置 tab 为 4 个空格时，请勿勾选 Use tab character；而在 eclipse 中，必须勾选 insert spaces for tabs。  </p>
+<p>正例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 缩进 4 个空格</span></span><br><span class="line">    String say = <span class="string">"hello"</span>;</span><br><span class="line">    <span class="comment">// 运算符的左右必须有一个空格</span></span><br><span class="line">    <span class="keyword">int</span> flag = <span class="number">0</span>;</span><br><span class="line">    <span class="comment">// 关键词 if 与括号之间必须有一个空格，括号内的 f 与左括号，0 与右括号不需要空格</span></span><br><span class="line">    <span class="keyword">if</span> (flag == <span class="number">0</span>) &#123;</span><br><span class="line">    	System.out.println(say);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 左大括号前加空格且不换行；左大括号后换行</span></span><br><span class="line">    <span class="keyword">if</span> (flag == <span class="number">1</span>) &#123;</span><br><span class="line">    	System.out.println(<span class="string">"world"</span>);</span><br><span class="line">    <span class="comment">// 右大括号前换行，右大括号后有 else，不用换行</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    	System.out.println(<span class="string">"ok"</span>);</span><br><span class="line">    <span class="comment">// 在右大括号后直接结束，则必须换行</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>注释的双斜线与注释内容之间有且仅有一个空格。  </p>
+<p>正例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 这是示例注释，请注意在双斜线之后有一个空格</span></span><br><span class="line">String param = <span class="keyword">new</span> String();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在进行类型强制转换时，右括号与强制转换值之间不需要任何空格隔开。  </p>
+<p>正例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">long</span> first = <span class="number">1000000000000L</span>;</span><br><span class="line"><span class="keyword">int</span> second = (<span class="keyword">int</span>)first + <span class="number">2</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>单行字符数限制不超过 120 个，超出需要换行，换行时遵循如下原则：<br>1）第二行相对第一行缩进 4 个空格，从第三行开始，不再继续缩进，参考示例。<br>2）运算符与下文一起换行。<br>3）方法调用的点符号与下文一起换行。<br>4）方法调用中的多个参数需要换行时，在逗号后进行。<br>5）在括号前不要换行，见反例。  </p>
+<p>正例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">StringBuilder sb = <span class="keyword">new</span> StringBuilder();</span><br><span class="line"><span class="comment">// 超过 120 个字符的情况下，换行缩进 4 个空格，点号和方法名称一起换行</span></span><br><span class="line">sb.append(<span class="string">"Jack"</span>).append(<span class="string">"Ma"</span>)...</span><br><span class="line">.append(<span class="string">"alibaba"</span>)...</span><br><span class="line">.append(<span class="string">"alibaba"</span>)...</span><br><span class="line">.append(<span class="string">"alibaba"</span>);</span><br></pre></td></tr></table></figure>
+
+<p>反例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">StringBuilder sb = <span class="keyword">new</span> StringBuilder();</span><br><span class="line"><span class="comment">// 超过 120 个字符的情况下，不要在括号前换行</span></span><br><span class="line">sb.append(<span class="string">"Jack"</span>).append(<span class="string">"Ma"</span>)...append</span><br><span class="line">(<span class="string">"alibaba"</span>);</span><br><span class="line"><span class="comment">// 参数很多的方法调用可能超过 120 个字符，不要在逗号前换行</span></span><br><span class="line">method(args1, args2, args3, ...</span><br><span class="line">, argsX);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>方法参数在定义和传入时，多个参数逗号后边必须加空格。  </p>
+<p>正例：下例中实参的 args1，后边必须要有一个空格。  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">method(args1, args2, args3);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>IDE 的 text file encoding 设置为 UTF-8; IDE 中文件的换行符使用 Unix 格式，不要使用 Windows 格式。  </p>
+</li>
+<li><p>单个方法的总行数不超过 80 行。<br>说明：除注释之外的方法签名、 左右大括号、方法内代码、空行、回车及任何不可见字符的总行数不超过80行。<br>正例：代码逻辑分清红花和绿叶，个性和共性，绿叶逻辑单独出来成为额外方法，使主干代码更加清晰；共性逻辑抽取成为共性方法，便于复用和维护。</p>
+</li>
+<li><p>没有必要增加若干空格来使变量的赋值等号与上一行对应位置的等号对齐。  </p>
+<p>正例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> one = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">long</span> two = <span class="number">2L</span>;</span><br><span class="line"><span class="keyword">float</span> three = <span class="number">3F</span>;</span><br><span class="line">StringBuilder sb = <span class="keyword">new</span> StringBuilder();</span><br></pre></td></tr></table></figure>
+
+<p>说明：增加 sb 这个变量，如果需要对齐，则给 one、 two、 three 都要增加几个空格，在变量比较多的情况下，是非常累赘的事情。 </p>
+</li>
+<li><p>不同逻辑、不同语义、不同业务的代码之间插入一个空行分隔开来以提升可读性。  </p>
+<p>说明：任何情形，没有必要插入多个空行进行隔开。  </p>
+</li>
+</ol>
+<h2><span id="oop-gui-yue">OOP规约</span><a href="#oop-gui-yue" class="header-anchor">#</a></h2><ol>
+<li><p>避免通过一个类的对象引用访问此类的静态变量或静态方法，无谓增加编译器解析成本，直接用类名来访问即可。  </p>
+</li>
+<li><p>所有的覆写方法，必须加@Override 注解。<br>说明：getObject()与 get0bject()的问题。一个是字母的 O，一个是数字的 0，加@Override 可以准确判断是否覆盖成功。另外，如果在抽象类中对方法签名进行修改，其实现类会马上编译报错。  </p>
+</li>
+<li><p>相同参数类型，相同业务含义，才可以使用 Java 的可变参数，避免使用 Object。<br>说明：可变参数必须放置在参数列表的最后。（提倡同学们尽量不用可变参数编程）<br>正例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> List&lt;User&gt; <span class="title">listUsers</span><span class="params">(String type, Long... ids)</span> </span>&#123;...&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p>4.</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/Java/" rel="tag"><i class="fa fa-tag"></i> Java</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/06/17/python-excel%E5%A4%84%E7%90%86/" rel="prev" title="python excel处理">
+      <i class="fa fa-chevron-left"></i> python excel处理
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#null"><span class="nav-number">1.</span> <span class="nav-text">编程规约#</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">1.1.</span> <span class="nav-text">命名风格#</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">1.2.</span> <span class="nav-text">常量定义#</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">1.3.</span> <span class="nav-text">代码格式#</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">1.4.</span> <span class="nav-text">OOP规约#</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="swaggyTech"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">swaggyTech</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">swaggyTech</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script size="300" alpha="0.6" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+    <script defer src="/lib/three/three-waves.min.js"></script>
+    <script defer src="/lib/three/canvas_lines.min.js"></script>
+    <script defer src="/lib/three/canvas_sphere.min.js"></script>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el: '#valine-comments',
+      verify: false,
+      notify: false,
+      appId: 'pFQbbI3wkDMVPFSxV5bMvwLK-gzGzoHsz',
+      appKey: 'S9T17PSp3bwcaxF9q32Ns1b4',
+      placeholder: "切磋一下",
+      avatar: 'mm',
+      meta: guest,
+      pageSize: '10' || 10,
+      visitor: false,
+      lang: '' || 'zh-cn',
+      path: location.pathname,
+      recordIP: true,
+      serverURLs: ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>
