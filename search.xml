@@ -835,7 +835,9 @@ A.YES.equals(B.YES)，预期是 true，但实际返回为 false，导致线上�
   <entry>
     <title>python excel处理</title>
     <url>/2020/06/17/python-excel%E5%A4%84%E7%90%86/</url>
-    <content><![CDATA[<a id="more"></a>
+    <content><![CDATA[<center>python-excel处理操作</center>
+
+<a id="more"></a>
 
 <!--toc-->
 
@@ -852,7 +854,9 @@ A.YES.equals(B.YES)，预期是 true，但实际返回为 false，导致线上�
   <entry>
     <title>python web抓取信息</title>
     <url>/2020/06/17/python-web%E6%8A%93%E5%8F%96%E4%BF%A1%E6%81%AF/</url>
-    <content><![CDATA[<a id="more"></a>
+    <content><![CDATA[<center>python web抓取信息</center>
+
+<a id="more"></a>
 
 <!--toc-->
 
@@ -870,7 +874,9 @@ A.YES.equals(B.YES)，预期是 true，但实际返回为 false，导致线上�
   <entry>
     <title>python文件操作</title>
     <url>/2020/06/14/python%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/</url>
-    <content><![CDATA[<a id="more"></a>
+    <content><![CDATA[<center>python 文件操作</center>
+
+<a id="more"></a>
 
 <!--toc-->
 
