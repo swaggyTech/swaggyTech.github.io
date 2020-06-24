@@ -7,7 +7,49 @@
 
 <a id="more"></a>
 
-<!--toc-->
+<div class="toc">
+
+<!-- toc -->
+
+<ul>
+<li><a href="#bian-cheng-gui-yue">编程规约</a><ul>
+<li><a href="#ming-ming-feng-ge">命名风格</a></li>
+<li><a href="#chang-liang-ding-yi">常量定义</a></li>
+<li><a href="#dai-ma-ge-shi">代码格式</a></li>
+<li><a href="#oop-gui-yue">OOP规约</a></li>
+<li><a href="#ji-he-chu-li">集合处理</a></li>
+<li><a href="#bing-fa-chu-li">并发处理</a></li>
+<li><a href="#kong-zhi-yu-ju">控制语句</a></li>
+<li><a href="#zhu-shi-gui-yue">注释规约</a></li>
+<li><a href="#qi-ta">其他</a></li>
+</ul>
+</li>
+<li><a href="#yi-chang-ri-zhi">异常日志</a><ul>
+<li><a href="#yi-chang-chu-li">异常处理</a></li>
+<li><a href="#ri-zhi-gui-yue">日志规约</a></li>
+</ul>
+</li>
+<li><a href="#dan-yuan-ce-shi">单元测试</a></li>
+<li><a href="#an-quan-gui-yue">安全规约</a></li>
+<li><a href="#mysql-shu-ju-ku">MySQL数据库</a><ul>
+<li><a href="#jian-biao-gui-yue">建表规约</a></li>
+<li><a href="#suo-yin-gui-yue">索引规约</a></li>
+<li><a href="#sql-yu-ju">SQL语句</a></li>
+<li><a href="#orm-ying-she">ORM映射</a></li>
+</ul>
+</li>
+<li><a href="#gong-cheng-jie-gou">工程结构</a><ul>
+<li><a href="#ying-yong-fen-ceng">应用分层</a></li>
+<li><a href="#er-fang-ku-yi-lai">二方库依赖</a></li>
+<li><a href="#fu-wu-qi">服务器</a></li>
+</ul>
+</li>
+<li><a href="#she-ji-gui-yue">设计规约</a></li>
+<li><a href="#ming-ci-jie-shi">名词解释</a></li>
+</ul>
+<!-- tocstop -->
+
+</div>
 
 <h1><span id="bian-cheng-gui-yue">编程规约</span><a href="#bian-cheng-gui-yue" class="header-anchor">#</a></h1><h2><span id="ming-ming-feng-ge">命名风格</span><a href="#ming-ming-feng-ge" class="header-anchor">#</a></h2><ul>
 <li><p>POJO类中布尔类型变量都不要加is前缀，否则部分框架解析会引起序列化错误。</p>
@@ -841,7 +883,16 @@ A.YES.equals(B.YES)，预期是 true，但实际返回为 false，导致线上�
 
 <a id="more"></a>
 
-<!--toc-->
+<div class="toc">
+
+<!-- toc -->
+
+<ul>
+<li><a href="#ji-ben-cao-zuo">基本操作</a></li>
+</ul>
+<!-- tocstop -->
+
+</div>
 
 <p><a href="https://openpyxl.readthedocs.io/en/stable/tutorial.html#" target="_blank" rel="noopener">openpyxl</a></p>
 <h2><span id="ji-ben-cao-zuo">基本操作</span><a href="#ji-ben-cao-zuo" class="header-anchor">#</a></h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> openpyxl</span><br><span class="line"><span class="comment"># 读取工作表</span></span><br><span class="line">wb = openpyxl.load_workbook(<span class="string">'test.xlsx'</span>)</span><br><span class="line">print(type(wb))  <span class="comment"># &lt;class 'openpyxl.workbook.workbook.Workbook'&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看工作表列表</span></span><br><span class="line"><span class="comment"># names = wb.get_sheet_names()</span></span><br><span class="line">names = wb.sheetnames</span><br><span class="line">print(names)  <span class="comment"># ['Sheet1']</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 选择工作表</span></span><br><span class="line"><span class="comment"># sheet = wb.get_sheet_by_name('Sheet1')</span></span><br><span class="line">sheet = wb[<span class="string">'Sheet1'</span>]</span><br><span class="line">print(type(sheet))  <span class="comment"># &lt;class 'openpyxl.worksheet.worksheet.Worksheet'&gt;</span></span><br><span class="line">print(sheet.title)  <span class="comment"># Sheet1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 读取单元格</span></span><br><span class="line">cell = sheet[<span class="string">'A1'</span>]</span><br><span class="line">print(type(cell))  <span class="comment"># &lt;class 'openpyxl.cell.cell.Cell'&gt;</span></span><br><span class="line">print(cell)  <span class="comment"># &lt;Cell 'Sheet1'.A1&gt;</span></span><br><span class="line"></span><br><span class="line">value = cell.value</span><br><span class="line">print(type(value))  <span class="comment"># &lt;class 'str'&gt;</span></span><br><span class="line">print(value)  <span class="comment"># 4/5/2015 1:34:02 PM</span></span><br><span class="line"></span><br><span class="line">b = sheet[<span class="string">'B1'</span>]</span><br><span class="line">print(b.value)  <span class="comment"># Apples</span></span><br><span class="line"></span><br><span class="line">b2 = sheet[<span class="string">'B2'</span>]</span><br><span class="line">print(b2.value)  <span class="comment"># Cherries</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 位置信息</span></span><br><span class="line">ret = <span class="string">'Row '</span> + str(b.row) + <span class="string">', Column '</span> + str(b.column) + <span class="string">' is '</span> + b.value</span><br><span class="line">print(ret)  <span class="comment"># Row 1, Column 2 is Apples</span></span><br><span class="line"></span><br><span class="line">ret = <span class="string">'Cell '</span> + str(b.coordinate) + <span class="string">' is '</span> + str(b.value)</span><br><span class="line">print(ret)  <span class="comment"># Cell B1 is Apples</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># cell方法</span></span><br><span class="line">print(sheet.cell(row=<span class="number">1</span>, column=<span class="number">2</span>))  <span class="comment"># &lt;Cell 'Sheet1'.B1&gt;</span></span><br><span class="line">print(sheet.cell(row=<span class="number">1</span>, column=<span class="number">2</span>).value)  <span class="comment"># Apples</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">8</span>, <span class="number">2</span>):</span><br><span class="line">    print(i, sheet.cell(row=i, column=<span class="number">2</span>).value)</span><br><span class="line"><span class="comment"># 1 Apples</span></span><br><span class="line"><span class="comment"># 3 Peaes</span></span><br><span class="line"><span class="comment"># 5 Apples</span></span><br><span class="line"><span class="comment"># 7 Strawberries</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 确定表的大小</span></span><br><span class="line">print(sheet.max_row)  <span class="comment"># 7</span></span><br><span class="line">print(sheet.max_column)  <span class="comment"># 3</span></span><br></pre></td></tr></table></figure>
@@ -860,7 +911,15 @@ A.YES.equals(B.YES)，预期是 true，但实际返回为 false，导致线上�
 
 <a id="more"></a>
 
-<!--toc-->
+<div class="toc">
+
+<!-- toc -->
+
+
+
+<!-- tocstop -->
+
+</div>
 
 <ul>
 <li>webbrowser：是Python自带的，打开浏览器获取指定页面。 </li>
@@ -880,7 +939,23 @@ A.YES.equals(B.YES)，预期是 true，但实际返回为 false，导致线上�
 
 <a id="more"></a>
 
-<!--toc-->
+<div class="toc">
+
+<!-- toc -->
+
+<ul>
+<li><a href="#lu-jing-biao-shi">路径表示</a><ul>
+<li><a href="#dang-qian-gong-zuo-mu-lu">当前工作目录</a></li>
+<li><a href="#jue-dui-lu-jing-yu-xiang-dui-lu-jing">绝对路径与相对路径</a></li>
+<li><a href="#chuang-jian-xin-wen-jian-jia">创建新文件夹</a></li>
+<li><a href="#chu-li-jue-dui-xiang-dui-lu-jing">处理绝对相对路径</a></li>
+</ul>
+</li>
+<li><a href="#wen-jian-da-xiao-nei-rong">文件大小、内容</a></li>
+</ul>
+<!-- tocstop -->
+
+</div>
 
 <h2><span id="lu-jing-biao-shi">路径表示</span><a href="#lu-jing-biao-shi" class="header-anchor">#</a></h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line">path = os.path.join(<span class="string">'usr'</span>, <span class="string">'bin'</span>, <span class="string">'spam'</span>)</span><br><span class="line">print(path)  <span class="comment"># usr\bin\spam</span></span><br></pre></td></tr></table></figure>
 
@@ -1097,7 +1172,45 @@ A.YES.equals(B.YES)，预期是 true，但实际返回为 false，导致线上�
 
 <a id="more"></a>
 
-<!--toc-->
+<div class="toc">
+
+<!-- toc -->
+
+<ul>
+<li><a href="#fen-zhi-suan-fa">分治算法</a><ul>
+<li><a href="#ji-ben-gai-nian">基本概念</a></li>
+<li><a href="#gua-yong-chang-jing">适用场景</a></li>
+<li><a href="#jing-dian-chang-jing">经典场景</a></li>
+<li><a href="#jing-dian-li-ti">经典例题</a></li>
+</ul>
+</li>
+<li><a href="#dong-tai-gui-hua-suan-fa">动态规划算法</a><ul>
+<li><a href="#ji-ben-gai-nian-1">基本概念</a></li>
+<li><a href="#gua-yong-chang-jing-1">适用场景</a></li>
+<li><a href="#jing-dian-wen-ti">经典问题</a></li>
+</ul>
+</li>
+<li><a href="#tan-xin-suan-fa">贪心算法</a><ul>
+<li><a href="#ji-ben-gai-nian-2">基本概念</a></li>
+<li><a href="#yu-dp-dui-bi">与DP对比</a></li>
+<li><a href="#jing-dian-wen-ti-1">经典问题</a></li>
+</ul>
+</li>
+<li><a href="#hui-su-suan-fa">回溯算法</a><ul>
+<li><a href="#ji-ben-gai-nian-3">基本概念</a></li>
+<li><a href="#shi-xian-fang-fa">实现方法</a></li>
+<li><a href="#jing-dian-wen-ti-2">经典问题</a></li>
+</ul>
+</li>
+<li><a href="#fen-zhi-xian-jie-suan-fa">分支限界算法</a><ul>
+<li><a href="#ji-ben-gai-nian-4">基本概念</a></li>
+<li><a href="#jing-dian-wen-ti-3">经典问题</a></li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
+
+</div>
 
 <h2><span id="fen-zhi-suan-fa">分治算法</span><a href="#fen-zhi-suan-fa" class="header-anchor">#</a></h2><h3><span id="ji-ben-gai-nian">基本概念</span><a href="#ji-ben-gai-nian" class="header-anchor">#</a></h3><p>把一个复杂的问题分成若干个相同或相似的子问题，再把子问题分成更小的子问题… ， 知道最后子问题可以简单的直接求解，原问题的解即子问题的解的合并。</p>
 <h3><span id="gua-yong-chang-jing">适用场景</span><a href="#gua-yong-chang-jing" class="header-anchor">#</a></h3><p>1）当问题规模缩小到一定的程度就可以很容易解决<br>2）该问题可以分解为若干个规模较小的相同问题<br>3）该问题分解出的若干子问题的解可以合并为该问题的解<br>4）每个子问题都是独立的，相互之间没有交集。</p>
@@ -1169,7 +1282,18 @@ A.YES.equals(B.YES)，预期是 true，但实际返回为 false，导致线上�
 
 <a id="more"></a>
 
-<!--toc-->
+<div class="toc">
+
+<!-- toc -->
+
+<ul>
+<li><a href="#dfs">DFS</a></li>
+<li><a href="#bfs">BFS</a></li>
+<li><a href="#dui-bi">对比</a></li>
+</ul>
+<!-- tocstop -->
+
+</div>
 
 <h2><span id="dfs">DFS</span><a href="#dfs" class="header-anchor">#</a></h2><p>DFS（Depth First Search）深度优先搜索是从起始顶点开始，<strong>递归访问</strong>其所有邻近节点，比如A节点是其第一个邻近节点，而B节点又是A的一个邻近节点，则DFS访问A节点后再访问B节点，如果B节点有未访问的邻近节点的话将继续访问其邻近节点，否则继续访问A的未访问邻近节点，当所有从A节点出去的路径都访问完之后，继续递归访问除A以外未被访问的邻近节点。</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">(HashMap&lt;Character , LinkedList&lt;Character&gt;&gt; graph,HashMap&lt;Character, Boolean&gt; visited)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    visit(graph, visited, <span class="string">'u'</span>);<span class="comment">//为了和图中的顺序一样，我认为控制了DFS先访问u节点</span></span><br><span class="line">    visit(graph,visited,<span class="string">'w'</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">visit</span><span class="params">(HashMap&lt;Character , LinkedList&lt;Character&gt;&gt; graph,HashMap&lt;Character, Boolean&gt; visited,<span class="keyword">char</span> start)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!visited.containsKey(start))</span><br><span class="line">    &#123;</span><br><span class="line">        count++;</span><br><span class="line">        System.out.println(<span class="string">"The time into element "</span>+start+<span class="string">":"</span>+count);<span class="comment">//记录进入该节点的时间</span></span><br><span class="line">        visited.put(start, <span class="keyword">true</span>);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">char</span> c : graph.get(start)) </span><br><span class="line">        &#123;</span><br><span class="line">        <span class="keyword">if</span>(!visited.containsKey(c))</span><br><span class="line">        &#123;</span><br><span class="line">            visit(graph,visited,c);<span class="comment">//递归访问其邻近节点</span></span><br><span class="line">        &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        count++;</span><br><span class="line">        System.out.println(<span class="string">"The time out element "</span>+start+<span class="string">":"</span>+count);<span class="comment">//记录离开该节点的时间</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -1350,7 +1474,22 @@ A.YES.equals(B.YES)，预期是 true，但实际返回为 false，导致线上�
 
 <a id="more"></a>
 
-<!--toc-->
+<div class="toc">
+
+<!-- toc -->
+
+<ul>
+<li><a href="#lombok-ji-chu">lombok基础</a><ul>
+<li><a href="#1-gai-shu">1.概述</a></li>
+<li><a href="#2-shi-xian-yuan-li">2.实现原理</a></li>
+<li><a href="#3-lombok-zhu-jie">3.lombok注解</a></li>
+<li><a href="#can-kao">参考：</a></li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
+
+</div>
 
 <h2><span id="lombok-ji-chu">lombok基础</span><a href="#lombok-ji-chu" class="header-anchor">#</a></h2><h3><span id="1-gai-shu">1.概述</span><a href="#1-gai-shu" class="header-anchor">#</a></h3><p>Lombok是一个 Java 工具，通过使用其定义的注解，自动生成常见的冗余代码，提升开发效率。</p>
 <h3><span id="2-shi-xian-yuan-li">2.实现原理</span><a href="#2-shi-xian-yuan-li" class="header-anchor">#</a></h3><p>Lombok 的实现原理，基于 <a href="https://jcp.org/en/jsr/detail?id=269" target="_blank" rel="noopener">JSR269(Pluggable Annotation Processing API)</a> 规范，自定义编译器注解处理器，用于在 Javac 编译阶段时，扫描使用到 Lombok 定义的注解的类，进行自定义的代码生成。</p>
@@ -4187,7 +4326,38 @@ A.YES.equals(B.YES)，预期是 true，但实际返回为 false，导致线上�
 
 <a id="more"></a>
 
-<!--toc-->
+<div class="toc">
+
+<!-- toc -->
+
+<ul>
+<li><a href="#lei-xing-yu-yun-suan">类型与运算</a><ul>
+<li><a href="#lei-xing-pan-duan">类型判断</a></li>
+<li><a href="#shu-ju-lei-xing">数据类型</a></li>
+</ul>
+</li>
+<li><a href="#biao-da-shi-cao-zuo-fu">表达式操作符</a></li>
+<li><a href="#shu-xue-xiang-guan-mo-kuai">数学相关模块</a></li>
+<li><a href="#ji-he-set">集合set</a></li>
+<li><a href="#bu-er-lei-xing">布尔类型</a></li>
+<li><a href="#dong-tai-lei-xing">动态类型</a></li>
+<li><a href="#chang-jian-zi-fu-chuan-chang-liang-he-biao-da-shi">常见字符串常量和表达式</a></li>
+<li><a href="#chang-yong-lie-biao-chang-liang-he-cao-zuo">常用列表常量和操作</a></li>
+<li><a href="#chang-yong-zi-dian-chang-liang-he-cao-zuo">常用字典常量和操作</a></li>
+<li><a href="#yuan-zu">元组</a></li>
+<li><a href="#yu-fa">语法</a></li>
+<li><a href="#han-shu-yu-fa-gui-ze">函数语法规则</a></li>
+<li><a href="#han-shu-li-zi">函数例子</a></li>
+<li><a href="#mo-kuai-model">模块model</a></li>
+<li><a href="#lei-yu-mian-dui-dui-xiang">类与面对对象</a></li>
+<li><a href="#lei-de-gao-ji-hua-ti">类的高级话题</a></li>
+<li><a href="#yi-chang-xiang-guan">异常相关</a></li>
+<li><a href="#unicode-he-zi-jie-zi-fu-chuan">unicode和字节字符串</a></li>
+<li><a href="#qi-ta">其他</a></li>
+</ul>
+<!-- tocstop -->
+
+</div>
 
 <h2><span id="lei-xing-yu-yun-suan">类型与运算</span><a href="#lei-xing-yu-yun-suan" class="header-anchor">#</a></h2><h3><span id="lei-xing-pan-duan">类型判断</span><a href="#lei-xing-pan-duan" class="header-anchor">#</a></h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#-- 寻求帮助:</span></span><br><span class="line">    dir(obj)            <span class="comment"># 简单的列出对象obj所包含的方法名称，返回一个字符串列表</span></span><br><span class="line">    help(obj.func)      <span class="comment"># 查询obj.func的具体介绍和用法</span></span><br><span class="line">    </span><br><span class="line"><span class="comment">#-- 测试类型的三种方法，推荐第三种</span></span><br><span class="line">    <span class="keyword">if</span> type(L) == type([]):</span><br><span class="line">        print(<span class="string">"L is list"</span>)</span><br><span class="line">    <span class="keyword">if</span> type(L) == list:</span><br><span class="line">        print(<span class="string">"L is list"</span>)</span><br><span class="line">    <span class="keyword">if</span> isinstance(L, list):</span><br><span class="line">        print(<span class="string">"L is list"</span>)</span><br></pre></td></tr></table></figure>
 
