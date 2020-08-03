@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-mac-osx.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.6.0',
+    exturl: false,
+    sidebar: {"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="#mysql&amp;#x590D;&amp;#x6742;&amp;#x67E5;&amp;#x8BE2;#why&amp;#x591A;&amp;#x8868;&amp;#x67E5;&amp;#x8BE2;&amp;#x6570;&amp;#x636E;&amp;#x6765;&amp;#x81EA;&amp;#x4E0D;&amp;#x540C;&amp;#x7684;&amp;#x8868;&amp;#xFF0C;&amp;#x9700;&amp;#x8981;&amp;#x591A;&amp;#x8868;&amp;#x8054;&amp;#x5408;&amp;#">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mysql复杂查询">
+<meta property="og:url" content="http://yoursite.com/2020/08/03/mysql%E5%A4%8D%E6%9D%82%E6%9F%A5%E8%AF%A2/index.html">
+<meta property="og:site_name" content="翻个片马">
+<meta property="og:description" content="#mysql&amp;#x590D;&amp;#x6742;&amp;#x67E5;&amp;#x8BE2;#why&amp;#x591A;&amp;#x8868;&amp;#x67E5;&amp;#x8BE2;&amp;#x6570;&amp;#x636E;&amp;#x6765;&amp;#x81EA;&amp;#x4E0D;&amp;#x540C;&amp;#x7684;&amp;#x8868;&amp;#xFF0C;&amp;#x9700;&amp;#x8981;&amp;#x591A;&amp;#x8868;&amp;#x8054;&amp;#x5408;&amp;#">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-08-03T13:07:35.000Z">
+<meta property="article:modified_time" content="2020-08-03T13:09:34.437Z">
+<meta property="article:author" content="swaggyTech">
+<meta property="article:tag" content="mysql">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2020/08/03/mysql%E5%A4%8D%E6%9D%82%E6%9F%A5%E8%AF%A2/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>mysql复杂查询 | 翻个片马</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">翻个片马</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/03/mysql%E5%A4%8D%E6%9D%82%E6%9F%A5%E8%AF%A2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="swaggyTech">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="翻个片马">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          mysql复杂查询
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-08-03 21:07:35 / 修改时间：21:09:34" itemprop="dateCreated datePublished" datetime="2020-08-03T21:07:35+08:00">2020-08-03</time>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+              <span class="post-meta-divider">|</span>
+              <span title="post.wordcount"><span class="post-meta-item-icon"><i class="fa fa-file-word-o"></i></span>字数： 906</span>
+
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/08/03/mysql%E5%A4%8D%E6%9D%82%E6%9F%A5%E8%AF%A2/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/08/03/mysql%E5%A4%8D%E6%9D%82%E6%9F%A5%E8%AF%A2/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <a id="more"></a>
+
+<!--toc-->
+
+<h1><a href="#mysql-fu-za-cha-xun" class="header-anchor">#</a><span id="mysql-fu-za-cha-xun">mysql&#x590D;&#x6742;&#x67E5;&#x8BE2;</span></h1><h2><a href="#why-duo-biao-cha-xun" class="header-anchor">#</a><span id="why-duo-biao-cha-xun">why&#x591A;&#x8868;&#x67E5;&#x8BE2;</span></h2><p>&#x6570;&#x636E;&#x6765;&#x81EA;&#x4E0D;&#x540C;&#x7684;&#x8868;&#xFF0C;&#x9700;&#x8981;&#x591A;&#x8868;&#x8054;&#x5408;&#x67E5;&#x8BE2;&#xFF0C;&#x3010;&#x4E24;&#x4E2A;&#x6216;&#x4E24;&#x4E2A;&#x4EE5;&#x4E0A;&#x7684;&#x8868;&#x6216;&#x89C6;&#x56FE;&#x7684;&#x67E5;&#x8BE2;&#x3002;&#x3011;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from emp,dept;</span><br></pre></td></tr></table></figure>
+
+<p>&#x518D;&#x52A0;&#x4E0A;&#x5DE5;&#x8D44;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from emp,dept,salgrade;</span><br></pre></td></tr></table></figure>
+
+<p>&#x589E;&#x52A0;&#x8FC7;&#x6EE4;&#x6761;&#x4EF6;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from emp,dept where emp.deptno = dept.deptno;</span><br></pre></td></tr></table></figure>
+
+<p>&#x53D6;&#x51FA;&#x60F3;&#x8981;&#x7684;&#x5B57;&#x6BB5;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from emp.ename,emp.sal,dept.dname from emp,dept where emp.deptno = dept.deptno;</span><br></pre></td></tr></table></figure>
+
+<p>&#x5982;&#x679C;&#x6211;&#x4EEC;&#x663E;&#x793A;&#x7684;&#x5B57;&#x6BB5;&#x540D;&#xFF0C;&#x6CA1;&#x6709;&#x51B2;&#x7A81;&#x3010;&#x6CA1;&#x6709;&#x76F8;&#x540C;&#x7684;&#xFF0C;&#x5219;&#x53EF;&#x4EE5;&#x4E0D;&#x8981;&#x8868;&#x540D;&#x3011;</p>
+<p>&#x53D6;&#x51FA;&#x7279;&#x5B9A;&#x7684;&#x90E8;&#x95E8;&#x3001;&#x5458;&#x5DE5;&#x540D;&#x3001;&#x5DE5;&#x8D44;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select dept.dname,emp.sal from emp,dept where emp.deptno = dept.deptno and dept.deptno = 10;</span><br></pre></td></tr></table></figure>
+
+<p>&#x663E;&#x793A;&#x5458;&#x5DE5;&#x7684;&#x59D3;&#x540D;&#xFF0C;&#x5DE5;&#x8D44;&#xFF0C;&#x5DE5;&#x8D44;&#x7EA7;&#x522B;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select ename,sal,grade from emp,salgrade where sal between losal and hisal;</span><br></pre></td></tr></table></figure>
+
+<h2><a href="#zi-lian-jie" class="header-anchor">#</a><span id="zi-lian-jie">&#x81EA;&#x8FDE;&#x63A5;</span></h2><p>&#x5728;&#x540C;&#x4E00;&#x5F20;&#x8868;&#x7684;&#x8FDE;&#x63A5;&#x67E5;&#x8BE2;</p>
+<p>&#x5982;&#xFF1A;&#x663E;&#x793A;&#x67D0;&#x5458;&#x5DE5;&#x7684;&#x4E0A;&#x7EA7;&#x9886;&#x5BFC;&#x7684;&#x59D3;&#x540D;</p>
+<p>&#x6BD4;&#x5982;&#x663E;&#x793A;&#x2019;FORD&#x2019;&#x7684;&#x4E0A;&#x7EA7;</p>
+<ol>
+<li>&#x67E5;&#x8BE2;&#x2018;ford&#x2019;&#x7684;&#x4E0A;&#x7EA7;&#x7F16;&#x53F7;</li>
+<li>&#x901A;&#x8FC7;&#x8FD9;&#x4E2A;&#x7F16;&#x53F7;&#x83B7;&#x53D6;&#x8FD9;&#x4E2A;&#x4EBA;&#x7684;&#x4FE1;&#x606F;</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from emp where empno = (select mgr from emp where ename = &apos;ford&apos;)</span><br></pre></td></tr></table></figure>
+
+<p>&#x591A;&#x8868;&#x67E5;&#x8BE2;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select worker.ename,leader.ename from emp worker,emp leader where worker.mgr = leader.empno and worker.ename = &apos;ford&apos;;</span><br></pre></td></tr></table></figure>
+
+<p>&#x663E;&#x793A;&#x6240;&#x6709;&#x5458;&#x5DE5;&#x7684;&#x4E0A;&#x7EA7;&#x540D;&#x5B57;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select worker.ename,leader.ename from emp worker,emp leader where worker.mgr = leader.empno;</span><br></pre></td></tr></table></figure>
+
+<h2><a href="#zi-cha-xun" class="header-anchor">#</a><span id="zi-cha-xun">&#x5B50;&#x67E5;&#x8BE2;</span></h2><p>&#x5D4C;&#x5165;&#x5728;&#x5176;&#x4ED6;sql&#x8BED;&#x53E5;&#x4E2D;&#x7684;select&#x8BED;&#x53E5;&#xFF0C;&#x4E5F;&#x53EB;&#x5D4C;&#x5957;&#x67E5;&#x8BE2;</p>
+<p>where&#x5B50;&#x67E5;&#x8BE2;&#xFF1A;&#x5185;&#x5C42;&#x7684;&#x67E5;&#x8BE2;&#x7ED3;&#x679C;&#x4F5C;&#x4E3A;&#x5916;&#x5C42;sql&#x7684;&#x6BD4;&#x8F83;&#x6761;&#x4EF6;&#x3002;&#x5982;&#x679C;where&#x5217;=&#xFF08;&#x5185;&#x5C42;sql&#xFF09;&#xFF0C;&#x5219;&#x5185;&#x5C42;sql&#x8FD4;&#x56DE;&#x7684;&#x5FC5;&#x662F;&#x5355;&#x5217;&#xFF0C;&#x5355;&#x4E2A;&#x503C;&#xFF0C;&#x5982;&#x679C;where&#x5217;in&#xFF08;&#x5185;&#x5C42;sql&#xFF09;&#xFF0C;&#x5219;&#x5185;&#x5C42;sql&#x53EA;&#x8FD4;&#x56DE;&#x5355;&#x5217;&#xFF0C;&#x53EF;&#x4EE5;&#x591A;&#x884C;</p>
+<p>from&#x5B50;&#x67E5;&#x8BE2;&#xFF0C;&#x628A;select&#x540E;&#x7684;&#x7ED3;&#x679C;&#x96C6;&#x53D6;&#x4E2A;&#x522B;&#x540D;&#x5F53;&#x4F5C;&#x8868;&#x6765;&#x7528;</p>
+<p>exists&#x5B50;&#x67E5;&#x8BE2;&#xFF1A;&#x5148;&#x83B7;&#x53D6;&#x5916;&#x5C42;sql&#x6240;&#x6709;&#x6570;&#x636E;&#xFF0C;&#x5E76;&#x628A;&#x6570;&#x636E;&#x5E26;&#x5165;&#x5230;&#x5185;&#x67E5;&#x8BE2;&#x6761;&#x4EF6;&#x4E2D;&#xFF0C;&#x770B;&#x80FD;&#x5426;&#x67E5;&#x5230;&#x6570;&#x636E;&#x3002;</p>
+<p>&#x793A;&#x4F8B;&#xFF1A;&#x67E5;&#x8BE2;&#x680F;&#x76EE;&#x8868;&#xFF0C;&#x770B;cat_id&#x5BF9;&#x5E94;&#x7684;&#x5546;&#x54C1;&#x662F;&#x5426;&#x5B58;&#x5728;&#xFF0C;&#x5982;&#x679C;&#x5B58;&#x5728;&#xFF0C;&#x5219;&#x8FD9;&#x884C;&#x8BB0;&#x5F55;&#x5C31;&#x8981;&#xFF0C;&#x5426;&#x5219;&#x4E0D;&#x8981;&#xFF1B;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select cat_id from category where exists (select * from goods where goods.cat_id=category.cat_id);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select distinct cat_id from goods where cat_id in (select cat_id from goods group by cat_id) order by cat_id;</span><br></pre></td></tr></table></figure>
+
+<p>&#x5173;&#x952E;&#x5B57;&#x5305;&#x62EC;&#xFF1A;in  not in  =  !=  exists  not exists&#x7B49;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from emp where deptno = (select deptno from dept limit 1);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select *  from emp where deptno in (select deptno from dept);</span><br></pre></td></tr></table></figure>
+
+<p>&#x5982;&#x679C;&#x5B50;&#x67E5;&#x8BE2;&#x8BB0;&#x5F55;&#x6570;&#x552F;&#x4E00;&#xFF0C;&#x8FD8;&#x53EF;&#x4EE5;&#x7528;=&#x4EE3;&#x66FF;in</p>
+<h2><a href="#zi-cha-xun-fen-lei" class="header-anchor">#</a><span id="zi-cha-xun-fen-lei">&#x5B50;&#x67E5;&#x8BE2;&#x5206;&#x7C7B;</span></h2><ul>
+<li>&#x5355;&#x884C;&#x5B50;&#x67E5;&#x8BE2;&#xFF1A;&#x53EA;&#x8FD4;&#x56DE;&#x4E00;&#x884C;&#x6570;&#x636E;&#x7684;&#x5B50;&#x67E5;&#x8BE2;&#x8BED;&#x53E5;</li>
+<li>&#x591A;&#x884C;&#x5B50;&#x67E5;&#x8BE2;&#xFF1A;&#x8FD4;&#x56DE;&#x591A;&#x884C;&#x6570;&#x636E;&#x7684;&#x5B50;&#x67E5;&#x8BE2;&#xFF0C;&#x5173;&#x952E;&#x5B57;in</li>
+</ul>
+<p>&#x6848;&#x4F8B;&#xFF1A;&#x663E;&#x793A;&#x4E0E;smith&#x540C;&#x4E00;&#x90E8;&#x95E8;&#x7684;&#x6240;&#x6709;&#x5458;&#x5DE5;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from emp where deptno = (select deptno from emp where ename = &apos;smith&apos;);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from emp where deptno = (select deptno from emp where ename=&apos;smith&apos;) and ename &lt;&gt; &apos;smith&apos;</span><br></pre></td></tr></table></figure>
+
+<p>&#x67E5;&#x8BE2;&#x548C;&#x90E8;&#x95E8;10&#x7684;&#x5DE5;&#x4F5C;&#x76F8;&#x540C;&#x7684;&#x96C7;&#x5458;&#x7684;&#x59D3;&#x540D;&#x3001;&#x5C97;&#x4F4D;&#x3001;&#x5DE5;&#x8D44;&#x3001;&#x90E8;&#x95E8;&#x53F7;&#xFF0C;&#x4F46;&#x4E0D;&#x5305;&#x542B;10&#x81EA;&#x5DF1;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from emp where job in (select distinct job from emp where deptno = 0) and deptno &lt;&gt; 10;</span><br></pre></td></tr></table></figure>
+
+<h2><a href="#zong-he-cha-xun" class="header-anchor">#</a><span id="zong-he-cha-xun">&#x7EFC;&#x5408;&#x67E5;&#x8BE2;</span></h2><p>&#x67E5;&#x8BE2;ecshop&#x4E2D;&#x5404;&#x4E2A;&#x7C7B;&#x522B;&#xFF0C;&#x4EF7;&#x683C;&#x6700;&#x9AD8;&#x7684;&#x5546;&#x54C1;</p>
+<p>&#x7528;&#x5230;ecs_goods&#x7684;&#x5B57;&#x6BB5;goods_id cat_id goods_name shop_price&#xFF0C;group by&#x4F1A;&#x9ED8;&#x8BA4;&#x8FD4;&#x56DE;&#x7B2C;&#x4E00;&#x884C;</p>
+<p>&#x8BF4;&#x660E;&#xFF1A;&#x5728;ecs_goods&#x8868;&#x4E2D;&#x67E5;&#x770B;&#xFF0C;&#x8981;&#x6C42;&#x663E;&#x793A;&#x6BCF;&#x4E2A;&#x7C7B;&#x522B;&#x4E2D;&#xFF0C;&#x4EF7;&#x683C;&#x6700;&#x9AD8;&#x7684;&#x540D;&#x79F0;&#x548C;&#x4EF7;&#x683C;</p>
+<p>&#x5148;&#x6839;&#x636E;&#x7C7B;&#x522B;&#x548C;&#x4EF7;&#x683C;&#x8FDB;&#x884C;&#x6392;&#x5E8F;&#x5904;&#x7406;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select cat_id,goods_name,shop_price from ecs_goods order by cat_id,shop_prices desc;</span><br></pre></td></tr></table></figure>
+
+<p>&#x628A;&#x4E0A;&#x9762;&#x7684;&#x7ED3;&#x679C;&#x770B;&#x6210;&#x4E00;&#x4E2A;&#x4E34;&#x65F6;&#x8868;&#xFF0C;&#x7136;&#x540E;&#x5BF9;&#x5176;&#x8FDB;&#x884C;&#x5206;&#x7EC4;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from (select cat_id,goods_name,shop_price from ecs_goods order by cat_id,shop_prices desc) temp group by temp.cat_id;</span><br></pre></td></tr></table></figure>
+
+<p>&#x5BF9;&#x67D0;&#x4E2A;&#x5217;&#x8FDB;&#x884C;&#x5206;&#x7EC4;&#x540E;&#xFF0C;&#x9ED8;&#x8BA4;&#x8FD4;&#x56DE;&#x7B2C;&#x4E00;&#x6761;&#x8BB0;&#x5F55;</p>
+<h2><a href="#all-any-guan-jian-zi-de-shi-yong" class="header-anchor">#</a><span id="all-any-guan-jian-zi-de-shi-yong">all/any&#x5173;&#x952E;&#x5B57;&#x7684;&#x4F7F;&#x7528;</span></h2>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/mysql/" rel="tag"><i class="fa fa-tag"></i> mysql</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/08/03/git%E5%88%86%E6%94%AF%E7%AE%A1%E7%90%86/" rel="prev" title="git分支管理">
+      <i class="fa fa-chevron-left"></i> git分支管理
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/08/03/springboot%E9%9B%86%E6%88%90redis/" rel="next" title="springboot集成redis">
+      springboot集成redis <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">1.</span> <span class="nav-text">mysql&amp;#x590D;&amp;#x6742;&amp;#x67E5;&amp;#x8BE2;</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#"><span class="nav-number">1.1.</span> <span class="nav-text">why&amp;#x591A;&amp;#x8868;&amp;#x67E5;&amp;#x8BE2;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#"><span class="nav-number">1.2.</span> <span class="nav-text">&amp;#x81EA;&amp;#x8FDE;&amp;#x63A5;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#"><span class="nav-number">1.3.</span> <span class="nav-text">&amp;#x5B50;&amp;#x67E5;&amp;#x8BE2;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#"><span class="nav-number">1.4.</span> <span class="nav-text">&amp;#x5B50;&amp;#x67E5;&amp;#x8BE2;&amp;#x5206;&amp;#x7C7B;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#"><span class="nav-number">1.5.</span> <span class="nav-text">&amp;#x7EFC;&amp;#x5408;&amp;#x67E5;&amp;#x8BE2;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#"><span class="nav-number">1.6.</span> <span class="nav-text">all&#x2F;any&amp;#x5173;&amp;#x952E;&amp;#x5B57;&amp;#x7684;&amp;#x4F7F;&amp;#x7528;</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="swaggyTech"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">swaggyTech</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">30</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">swaggyTech</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script size="300" alpha="0.6" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+    <script defer src="/lib/three/three-waves.min.js"></script>
+    <script defer src="/lib/three/canvas_lines.min.js"></script>
+    <script defer src="/lib/three/canvas_sphere.min.js"></script>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el: '#valine-comments',
+      verify: false,
+      notify: false,
+      appId: 'pFQbbI3wkDMVPFSxV5bMvwLK-gzGzoHsz',
+      appKey: 'S9T17PSp3bwcaxF9q32Ns1b4',
+      placeholder: "切磋一下",
+      avatar: 'mm',
+      meta: guest,
+      pageSize: '10' || 10,
+      visitor: false,
+      lang: '' || 'zh-cn',
+      path: location.pathname,
+      recordIP: true,
+      serverURLs: ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>
