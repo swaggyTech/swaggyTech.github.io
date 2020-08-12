@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-mac-osx.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.6.0',
+    exturl: false,
+    sidebar: {"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="#xUnit Test Patterns&amp;#x5B66;&amp;#x4E60;&amp;#x7B14;&amp;#x8BB0;2 - Goal Of Test Automation&amp;#x6216;&amp;#x8BB8;&amp;#x6709;&amp;#x4EBA;&amp;#x89C9;&amp;#x5F97;&amp;#x5355;&amp;#x5143;&amp;#x6D4B;&amp;#x8BD5;&amp;#x53EF;&amp;#x6709;&amp;#x53EF;&amp;#x65E0;&amp;#xFF">
+<meta property="og:type" content="article">
+<meta property="og:title" content="xunit笔记2-Goal Of Test Automation">
+<meta property="og:url" content="http://yoursite.com/2020/08/12/xunit%E7%AC%94%E8%AE%B02-Goal-Of-Test-Automation/index.html">
+<meta property="og:site_name" content="翻个片马">
+<meta property="og:description" content="#xUnit Test Patterns&amp;#x5B66;&amp;#x4E60;&amp;#x7B14;&amp;#x8BB0;2 - Goal Of Test Automation&amp;#x6216;&amp;#x8BB8;&amp;#x6709;&amp;#x4EBA;&amp;#x89C9;&amp;#x5F97;&amp;#x5355;&amp;#x5143;&amp;#x6D4B;&amp;#x8BD5;&amp;#x53EF;&amp;#x6709;&amp;#x53EF;&amp;#x65E0;&amp;#xFF">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://images.cnblogs.com/cnblogs_com/coderzh/WindowsLiveWriter/xUnitTestPatterns2GoalOfTestAutomation_FF5C/image_thumb.png">
+<meta property="og:image" content="https://images.cnblogs.com/cnblogs_com/coderzh/WindowsLiveWriter/xUnitTestPatterns2GoalOfTestAutomation_FF5C/image_thumb_2.png">
+<meta property="article:published_time" content="2020-08-12T13:29:27.000Z">
+<meta property="article:modified_time" content="2020-08-12T13:30:02.899Z">
+<meta property="article:author" content="swaggyTech">
+<meta property="article:tag" content="xunit">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://images.cnblogs.com/cnblogs_com/coderzh/WindowsLiveWriter/xUnitTestPatterns2GoalOfTestAutomation_FF5C/image_thumb.png">
+
+<link rel="canonical" href="http://yoursite.com/2020/08/12/xunit%E7%AC%94%E8%AE%B02-Goal-Of-Test-Automation/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>xunit笔记2-Goal Of Test Automation | 翻个片马</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">翻个片马</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/12/xunit%E7%AC%94%E8%AE%B02-Goal-Of-Test-Automation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="swaggyTech">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="翻个片马">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          xunit笔记2-Goal Of Test Automation
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-08-12 21:29:27 / 修改时间：21:30:02" itemprop="dateCreated datePublished" datetime="2020-08-12T21:29:27+08:00">2020-08-12</time>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+              <span class="post-meta-divider">|</span>
+              <span title="post.wordcount"><span class="post-meta-item-icon"><i class="fa fa-file-word-o"></i></span>字数： 1k</span>
+
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/08/12/xunit%E7%AC%94%E8%AE%B02-Goal-Of-Test-Automation/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/08/12/xunit%E7%AC%94%E8%AE%B02-Goal-Of-Test-Automation/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <a id="more"></a>
+
+<!--toc-->
+
+<h1><a href="#xunit-test-patterns-xue-xi-bi-ji-2-goal-of-test-automation" class="header-anchor">#</a><span id="xunit-test-patterns-xue-xi-bi-ji-2-goal-of-test-automation">xUnit Test Patterns&#x5B66;&#x4E60;&#x7B14;&#x8BB0;2 - Goal Of Test Automation</span></h1><p>&#x6216;&#x8BB8;&#x6709;&#x4EBA;&#x89C9;&#x5F97;&#x5355;&#x5143;&#x6D4B;&#x8BD5;&#x53EF;&#x6709;&#x53EF;&#x65E0;&#xFF0C;&#x56E0;&#x4E3A;&#x89C9;&#x5F97;&#x9700;&#x8981;&#x4ED8;&#x51FA;&#x592A;&#x591A;&#x7684;&#x7CBE;&#x529B;&#xFF0C;&#x800C;&#x5BA2;&#x6237;&#x5E76;&#x4E0D;&#x9700;&#x8981;&#x5B83;&#x3002;&#x8FD9;&#x5C31;&#x6D89;&#x53CA;&#x5230;&#x6295;&#x8D44;&#x56DE;&#x62A5;&#x7387;&#x7684;&#x95EE;&#x9898;&#xFF0C;&#x5176;&#x5B9E;&#x6240;&#x4ED8;&#x51FA;&#x7684;&#x7528;&#x4E8E;&#x6D4B;&#x8BD5;&#x7684;&#x6295;&#x8D44;&#xFF0C;&#x5F80;&#x5F80;&#x4F1A;&#x6536;&#x83B7;&#x5230;&#x66F4;&#x591A;&#x56DE;&#x62A5;&#x3002;&#x5B83;&#x8BA9;&#x6211;&#x4EEC;&#x51CF;&#x5C11;&#x4E86;Bug&#x7684;&#x6570;&#x91CF;&#xFF0C;&#x51CF;&#x5C11;&#x4E86;&#x8C03;&#x8BD5;&#x4EE3;&#x7801;&#x5BFB;&#x627E;Bug&#x7684;&#x65F6;&#x95F4;&#x3002;&#x770B;&#x4E0B;&#x56FE;&#xFF0C;&#x6709;&#x6548;&#x7684;&#x81EA;&#x52A8;&#x5316;&#x6D4B;&#x8BD5;&#x6295;&#x8D44;&#x4E0B;&#xFF0C;&#x6D4B;&#x8BD5;&#x548C;&#x5F00;&#x53D1;&#x4ED8;&#x51FA;&#x7684;&#x52AA;&#x529B;&#x7684;&#x65F6;&#x95F4;&#x56FE;&#xFF1A;</p>
+<p><a href="http://images.cnblogs.com/cnblogs_com/coderzh/WindowsLiveWriter/xUnitTestPatterns2GoalOfTestAutomation_FF5C/image_2.png" target="_blank" rel="noopener"><img src="https://images.cnblogs.com/cnblogs_com/coderzh/WindowsLiveWriter/xUnitTestPatterns2GoalOfTestAutomation_FF5C/image_thumb.png" alt="image"></a></p>
+<p>&#x521D;&#x671F;&#xFF0C;&#x968F;&#x7740;&#x6D4B;&#x8BD5;&#x7684;&#x4ECB;&#x5165;&#xFF0C;&#x5F00;&#x53D1;&#x4ED8;&#x51FA;&#x7684;&#x6295;&#x5165;&#x9010;&#x6E10;&#x51CF;&#x5C11;&#x3002;&#x540E;&#x671F;&#xFF0C;&#x968F;&#x7740;&#x6D4B;&#x8BD5;&#x6848;&#x4F8B;&#x7684;&#x5B8C;&#x5584;&#x548C;&#x81EA;&#x52A8;&#x5316;&#xFF0C;&#x6D4B;&#x8BD5;&#x548C;&#x5F00;&#x53D1;&#x6240;&#x9700;&#x8981;&#x4ED8;&#x51FA;&#x7684;&#x6295;&#x5165;&#x90FD;&#x51CF;&#x5C11;&#x5230;&#x4E00;&#x4E2A;&#x5F88;&#x4F4E;&#x7684;&#x6C34;&#x5E73;&#x3002;&#x9634;&#x5F71;&#x90E8;&#x5206;&#x662F;&#x8282;&#x7701;&#x7684;&#x5F00;&#x53D1;&#x6295;&#x5165;&#x3002;</p>
+<p>&#x540C;&#x65F6;&#xFF0C;&#x5982;&#x679C;&#x81EA;&#x52A8;&#x5316;&#x6D4B;&#x8BD5;&#x505A;&#x7684;&#x4E0D;&#x597D;&#xFF0C;&#x5728;&#x540E;&#x671F;&#xFF0C;&#x5C06;&#x53EF;&#x80FD;&#x52A0;&#x5927;&#x6D4B;&#x8BD5;&#x548C;&#x5F00;&#x53D1;&#x7684;&#x8D1F;&#x62C5;&#xFF1A;</p>
+<p><a href="http://images.cnblogs.com/cnblogs_com/coderzh/WindowsLiveWriter/xUnitTestPatterns2GoalOfTestAutomation_FF5C/image_6.png" target="_blank" rel="noopener"><img src="https://images.cnblogs.com/cnblogs_com/coderzh/WindowsLiveWriter/xUnitTestPatterns2GoalOfTestAutomation_FF5C/image_thumb_2.png" alt="image"></a></p>
+<h3><a href="#zi-dong-hua-ce-shi-de-mu-biao" class="header-anchor">#</a><span id="zi-dong-hua-ce-shi-de-mu-biao">&#x81EA;&#x52A8;&#x5316;&#x6D4B;&#x8BD5;&#x7684;&#x76EE;&#x6807;</span></h3><ol>
+<li>Tests should help us improve quality.</li>
+<li>Tests should help us understand the SUT.</li>
+<li>Tests should reduce (and not introduce) risk.</li>
+<li>Tests should be easy to run.</li>
+<li>Tests should be easy to write and maintain.</li>
+<li>Tests should require minimal maintenance as the system evolves around them.</li>
+</ol>
+<h4><a href="#tests-should-help-us-improve-quality" class="header-anchor">#</a><span id="tests-should-help-us-improve-quality">Tests should help us improve quality</span></h4><ol>
+<li>Tests as Specification &#x6D4B;&#x8BD5;&#x6848;&#x4F8B;&#x53EF;&#x4EE5;&#x9A8C;&#x8BC1;&#x4EA7;&#x54C1;&#x7684;&#x884C;&#x4E3A;&#xFF0C;&#x9A8C;&#x8BC1;&#x662F;&#x5426;&#x201C;building the right software&#x201D;</li>
+<li>Bug Repellent &#x81EA;&#x52A8;&#x5316;&#x6D4B;&#x8BD5;&#x7684;&#x4E3B;&#x8981;&#x76EE;&#x7684;&#x4E0D;&#x662F;&#x53D1;&#x73B0;Bug&#xFF0C;&#x800C;&#x662F;&#x9884;&#x9632;&#x6216;&#x9632;&#x6B62;Bug&#x7684;&#x51FA;&#x73B0;&#x3002;</li>
+<li>Defect Localization &#x9876;&#x5C42;&#x7684;customer tests&#x53EA;&#x4F1A;&#x544A;&#x8BC9;&#x4F60;&#x6848;&#x4F8B;&#x5931;&#x8D25;&#x4E86;&#xFF0C;unit tests&#x4F1A;&#x544A;&#x8BC9;&#x4F60;&#x4E3A;&#x4EC0;&#x4E48;&#x5931;&#x8D25;&#x4E86;&#xFF0C;&#x80FD;&#x5B9A;&#x4F4D;&#x5230;&#x5177;&#x4F53;&#x7684;&#x95EE;&#x9898;&#x3002;&#x5982;&#x679C;customer tests&#x5931;&#x8D25;&#x4E86;&#x800C;&#x6240;&#x6709;&#x7684;unit tests&#x5374;&#x901A;&#x8FC7;&#x7684;&#x8BDD;&#xFF0C;&#x8BF4;&#x660E;&#x5355;&#x5143;&#x6D4B;&#x8BD5;&#x6848;&#x4F8B;&#x7F3A;&#x5931;&#x4E86;&#x3002;(Missing Unit Test)</li>
+</ol>
+<h4><a href="#tests-should-help-us-understand-the-sut" class="header-anchor">#</a><span id="tests-should-help-us-understand-the-sut">Tests should help us understand the SUT</span></h4><p>&#x6D4B;&#x8BD5;&#x6848;&#x4F8B;&#x662F;&#x975E;&#x5E38;&#x597D;&#x7684;&#x6587;&#x6863;&#xFF0C;&#x5B83;&#x544A;&#x8BC9;&#x4E86;&#x4F60;SUT&#x505A;&#x4E86;&#x4E9B;&#x4EC0;&#x4E48;&#x3002;&#x540C;&#x65F6;&#xFF0C;&#x5B83;&#x8FD8;&#x8BA9;&#x4F60;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x8C03;&#x8BD5;&#x6D4B;&#x8BD5;&#x6848;&#x4F8B;&#xFF0C;&#x5355;&#x6B65;&#x8DDF;&#x8E2A;&#xFF0C;&#x53BB;&#x4E86;&#x89E3;&#x6574;&#x4E2A;&#x7CFB;&#x7EDF;&#x662F;&#x5982;&#x4F55;&#x8FD0;&#x4F5C;&#x7684;&#x3002;</p>
+<h4><a href="#tests-should-reduce-and-not-introduce-risk" class="header-anchor">#</a><span id="tests-should-reduce-and-not-introduce-risk">Tests should reduce (and not introduce) risk</span></h4><ol>
+<li>Tests as Safety Net &#x6D4B;&#x8BD5;&#x6848;&#x4F8B;&#x5E94;&#x8BE5;&#x6210;&#x4E3A;&#x4FEE;&#x6539;&#x4EE3;&#x7801;&#x5B89;&#x5168;&#x7684;&#x4FDD;&#x969C;&#xFF0C;&#x8BA9;&#x6211;&#x4EEC;&#x5728;&#x91CD;&#x6784;&#x65E7;&#x4EE3;&#x7801;&#x65F6;&#x80FD;&#x591F;&#x5927;&#x5200;&#x9614;&#x65A7;&#xFF0C;&#x800C;&#x4E0D;&#x5FC5;&#x62C5;&#x5FC3;&#x4F1A;&#x7834;&#x574F;&#x4EC0;&#x4E48;&#x3002;</li>
+<li>Do No Harm &#x6D4B;&#x8BD5;&#x6848;&#x4F8B;&#x4E0D;&#x80FD;&#x5BF9;&#x4EA7;&#x54C1;&#x9020;&#x6210;&#x5F71;&#x54CD;&#xFF0C;&#x4E00;&#x4E2A;&#x91CD;&#x8981;&#x7684;&#x539F;&#x5219;&#x662F;&#xFF0C;&#x4E0D;&#x8981;&#x4FEE;&#x6539;SUT&#x3002;</li>
+</ol>
+<h4><a href="#tests-should-be-easy-to-run" class="header-anchor">#</a><span id="tests-should-be-easy-to-run">Tests should be easy to run</span></h4><ol>
+<li>Fully Automated Test &#x5B8C;&#x5168;&#x81EA;&#x52A8;&#x5316;</li>
+<li>Self-Checking Test &#x80FD;&#x591F;&#x81EA;&#x6211;&#x68C0;&#x67E5;&#xFF0C;&#x8BF4;&#x767D;&#x4E86;&#x5C31;&#x662F;&#x4E0D;&#x9700;&#x8981;&#x4EBA;&#x5DE5;&#x53BB;&#x68C0;&#x67E5;&#x6848;&#x4F8B;&#x6267;&#x884C;&#x7684;&#x7ED3;&#x679C;&#x5BF9;&#x4E0D;&#x5BF9;</li>
+<li>Repeatable Test &#x9700;&#x8981;&#x5177;&#x5907;&#x53EF;&#x91CD;&#x590D;&#x6027;&#x3002;&#x9F13;&#x52B1;&#x5F00;&#x53D1;&#x4EBA;&#x5458;&#x5728;&#x6BCF;&#x4E00;&#x6B21;&#x6309;&#x4E0B;&#x4FDD;&#x5B58;&#x6309;&#x94AE;&#x65F6;&#x90FD;&#x6267;&#x884C;&#x4E00;&#x6B21;&#x6D4B;&#x8BD5;&#x6848;&#x4F8B;(&#x6211;&#x6CA1;&#x4E8B;&#x5C31;&#x559C;&#x6B22;Ctrl+S)&#x3002;&#x6848;&#x4F8B;&#x9700;&#x8981;&#x5177;&#x5907;&#x53EF;&#x91CD;&#x590D;&#x6027;&#xFF0C;&#x5FC5;&#x987B;&#x5177;&#x5907;&#x81EA;&#x6211;&#x6E05;&#x7406;&#x80FD;&#x529B;(self-cleaning)&#xFF0C;&#x901A;&#x5E38;&#xFF0C;&#x662F;&#x5728;Test Fixture&#x7684;TearDown&#x4E2D;&#x8FDB;&#x884C;&#x73AF;&#x5883;&#x7684;&#x6E05;&#x7406;&#x3002;</li>
+</ol>
+<h4><a href="#tests-should-be-easy-to-write-and-maintain" class="header-anchor">#</a><span id="tests-should-be-easy-to-write-and-maintain">Tests should be easy to write and maintain</span></h4><ol>
+<li>Simple Tests &#x4E00;&#x4E2A;&#x9996;&#x8981;&#x7684;&#x539F;&#x5219;&#x662F;&#xFF0C;&#x8BA9;&#x6D4B;&#x8BD5;&#x6848;&#x4F8B;&#x5C3D;&#x91CF;&#x7684;&#x7B80;&#x5355;&#xFF0C;&#x4F7F;&#x5F97;&#x5176;&#x66F4;&#x5BB9;&#x6613;&#x7EF4;&#x62A4;&#x3002;&#x4E00;&#x6B21;&#x53EA;&#x6D4B;&#x4E00;&#x79CD;&#x6761;&#x4EF6;&#xFF08;Verify One Condition per Test&#xFF09;</li>
+<li>Expressive Tests &#x6D4B;&#x8BD5;&#x6848;&#x4F8B;&#x8981;&#x8FBE;&#x5230;&#x8868;&#x8FBE;&#x6E05;&#x6670;&#x7684;&#x76EE;&#x7684;&#xFF0C;&#x6BD4;&#x5982;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x4E00;&#x4E9B;Creation Mehods&#x548C;Custom Assertion&#x3002;&#x6709;&#x70B9;&#x50CF;BDD&#x3002;</li>
+<li>Separation of Concerns &#x6D4B;&#x8BD5;&#x6848;&#x4F8B;&#x8981;&#x5C3D;&#x91CF;&#x6D4B;&#x8BD5;&#x5355;&#x4E00;&#xFF0C;&#x72EC;&#x7ACB;&#x7684;&#x529F;&#x80FD;&#xFF0C;&#x4E0D;&#x8981;&#x4F9D;&#x8D56;&#x8FC7;&#x591A;&#x3002;&#x5F80;&#x5F80;&#x9700;&#x8981;&#x524D;&#x671F;&#x5C31;&#x4ECB;&#x5165;&#x53C2;&#x4E0E;&#x4EA7;&#x54C1;&#x7684;&#x53EF;&#x6D4B;&#x6027;&#x8BBE;&#x8BA1;(design for testability)&#x3002;</li>
+</ol>
+<h4><a href="#tests-should-require-minimal-maintenance-as-the-system-evolves-around-them" class="header-anchor">#</a><span id="tests-should-require-minimal-maintenance-as-the-system-evolves-around-them">Tests should require minimal maintenance as the system evolves around them</span></h4><p>&#x6D4B;&#x8BD5;&#x6848;&#x4F8B;&#x9700;&#x8981;&#x6700;&#x5C0F;&#x5316;&#x7EF4;&#x62A4;&#x7684;&#x5DE5;&#x4F5C;&#xFF0C;&#x56E0;&#x6B64;&#xFF0C;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x7F16;&#x5199;&#x5065;&#x58EE;&#x7684;&#x6D4B;&#x8BD5;&#x6848;&#x4F8B;(Robust Test)&#x3002;</p>
+<h3><a href="#" class="header-anchor">#</a><span id>&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;</span></h3><p>&#x8FD9;&#x7AE0;&#x8BB2;&#x7684;&#x662F;&#x6D4B;&#x8BD5;&#x7684;&#x76EE;&#x6807;&#xFF0C;&#x4FDD;&#x6301;&#x6848;&#x4F8B;&#x7B80;&#x5355;&#xFF0C;&#x7A33;&#x5B9A;&#xFF0C;&#x5BB9;&#x6613;&#x7EF4;&#x62A4;&#x7684;&#x58F0;&#x97F3;&#x4F3C;&#x4E4E;&#x603B;&#x662F;&#x5728;&#x4E0D;&#x505C;&#x7684;&#x91CD;&#x590D;&#x7740;&#xFF0C;&#x662F;&#x4E0D;&#x662F;&#x6709;&#x70B9;&#x70E6;&#x4E86;&#xFF1F;&#x4E5F;&#x8BB8;&#x4F5C;&#x8005;&#x5C31;&#x662F;&#x5E0C;&#x671B;&#x901A;&#x8FC7;&#x8FD9;&#x79CD;&#x4E0D;&#x505C;&#x7684;&#x5520;&#x53E8;&#xFF0C;&#x8BA9;&#x6211;&#x4EEC;&#x771F;&#x6B63;&#x8BB0;&#x4F4F;&#x3001;&#x63A5;&#x53D7;&#xFF0C;&#x5E76;&#x6700;&#x7EC8;&#x4F53;&#x4F1A;&#x548C;&#x611F;&#x609F;&#x5230;&#x8FD9;&#x4E9B;&#x4E1C;&#x897F;&#x7ED9;&#x6211;&#x4EEC;&#x5E26;&#x6765;&#x7684;&#x597D;&#x5904;&#x5427;&#x3002;</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/xunit/" rel="tag"><i class="fa fa-tag"></i> xunit</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/08/12/xunit%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/" rel="prev" title="xunit学习笔记1">
+      <i class="fa fa-chevron-left"></i> xunit学习笔记1
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">1.</span> <span class="nav-text">xUnit Test Patterns&amp;#x5B66;&amp;#x4E60;&amp;#x7B14;&amp;#x8BB0;2 - Goal Of Test Automation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#"><span class="nav-number">1.0.1.</span> <span class="nav-text">&amp;#x81EA;&amp;#x52A8;&amp;#x5316;&amp;#x6D4B;&amp;#x8BD5;&amp;#x7684;&amp;#x76EE;&amp;#x6807;</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#"><span class="nav-number">1.0.1.1.</span> <span class="nav-text">Tests should help us improve quality</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#"><span class="nav-number">1.0.1.2.</span> <span class="nav-text">Tests should help us understand the SUT</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#"><span class="nav-number">1.0.1.3.</span> <span class="nav-text">Tests should reduce (and not introduce) risk</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#"><span class="nav-number">1.0.1.4.</span> <span class="nav-text">Tests should be easy to run</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#"><span class="nav-number">1.0.1.5.</span> <span class="nav-text">Tests should be easy to write and maintain</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#"><span class="nav-number">1.0.1.6.</span> <span class="nav-text">Tests should require minimal maintenance as the system evolves around them</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#"><span class="nav-number">1.0.2.</span> <span class="nav-text">&amp;#x2014;&amp;#x2014;&amp;#x2014;&amp;#x2014;&amp;#x2014;</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="swaggyTech"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">swaggyTech</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">32</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">swaggyTech</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script size="300" alpha="0.6" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+    <script defer src="/lib/three/three-waves.min.js"></script>
+    <script defer src="/lib/three/canvas_lines.min.js"></script>
+    <script defer src="/lib/three/canvas_sphere.min.js"></script>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el: '#valine-comments',
+      verify: false,
+      notify: false,
+      appId: 'pFQbbI3wkDMVPFSxV5bMvwLK-gzGzoHsz',
+      appKey: 'S9T17PSp3bwcaxF9q32Ns1b4',
+      placeholder: "切磋一下",
+      avatar: 'mm',
+      meta: guest,
+      pageSize: '10' || 10,
+      visitor: false,
+      lang: '' || 'zh-cn',
+      path: location.pathname,
+      recordIP: true,
+      serverURLs: ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

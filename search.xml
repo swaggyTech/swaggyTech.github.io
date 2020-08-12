@@ -1,6 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>xunit笔记2-Goal Of Test Automation</title>
+    <url>/2020/08/12/xunit%E7%AC%94%E8%AE%B02-Goal-Of-Test-Automation/</url>
+    <content><![CDATA[<a id="more"></a>
+
+<!--toc-->
+
+<h1><a href="#xunit-test-patterns-xue-xi-bi-ji-2-goal-of-test-automation" class="header-anchor">#</a><span id="xunit-test-patterns-xue-xi-bi-ji-2-goal-of-test-automation">xUnit Test Patterns&#x5B66;&#x4E60;&#x7B14;&#x8BB0;2 - Goal Of Test Automation</span></h1><p>&#x6216;&#x8BB8;&#x6709;&#x4EBA;&#x89C9;&#x5F97;&#x5355;&#x5143;&#x6D4B;&#x8BD5;&#x53EF;&#x6709;&#x53EF;&#x65E0;&#xFF0C;&#x56E0;&#x4E3A;&#x89C9;&#x5F97;&#x9700;&#x8981;&#x4ED8;&#x51FA;&#x592A;&#x591A;&#x7684;&#x7CBE;&#x529B;&#xFF0C;&#x800C;&#x5BA2;&#x6237;&#x5E76;&#x4E0D;&#x9700;&#x8981;&#x5B83;&#x3002;&#x8FD9;&#x5C31;&#x6D89;&#x53CA;&#x5230;&#x6295;&#x8D44;&#x56DE;&#x62A5;&#x7387;&#x7684;&#x95EE;&#x9898;&#xFF0C;&#x5176;&#x5B9E;&#x6240;&#x4ED8;&#x51FA;&#x7684;&#x7528;&#x4E8E;&#x6D4B;&#x8BD5;&#x7684;&#x6295;&#x8D44;&#xFF0C;&#x5F80;&#x5F80;&#x4F1A;&#x6536;&#x83B7;&#x5230;&#x66F4;&#x591A;&#x56DE;&#x62A5;&#x3002;&#x5B83;&#x8BA9;&#x6211;&#x4EEC;&#x51CF;&#x5C11;&#x4E86;Bug&#x7684;&#x6570;&#x91CF;&#xFF0C;&#x51CF;&#x5C11;&#x4E86;&#x8C03;&#x8BD5;&#x4EE3;&#x7801;&#x5BFB;&#x627E;Bug&#x7684;&#x65F6;&#x95F4;&#x3002;&#x770B;&#x4E0B;&#x56FE;&#xFF0C;&#x6709;&#x6548;&#x7684;&#x81EA;&#x52A8;&#x5316;&#x6D4B;&#x8BD5;&#x6295;&#x8D44;&#x4E0B;&#xFF0C;&#x6D4B;&#x8BD5;&#x548C;&#x5F00;&#x53D1;&#x4ED8;&#x51FA;&#x7684;&#x52AA;&#x529B;&#x7684;&#x65F6;&#x95F4;&#x56FE;&#xFF1A;</p>
+<p><a href="http://images.cnblogs.com/cnblogs_com/coderzh/WindowsLiveWriter/xUnitTestPatterns2GoalOfTestAutomation_FF5C/image_2.png" target="_blank" rel="noopener"><img src="https://images.cnblogs.com/cnblogs_com/coderzh/WindowsLiveWriter/xUnitTestPatterns2GoalOfTestAutomation_FF5C/image_thumb.png" alt="image"></a></p>
+<p>&#x521D;&#x671F;&#xFF0C;&#x968F;&#x7740;&#x6D4B;&#x8BD5;&#x7684;&#x4ECB;&#x5165;&#xFF0C;&#x5F00;&#x53D1;&#x4ED8;&#x51FA;&#x7684;&#x6295;&#x5165;&#x9010;&#x6E10;&#x51CF;&#x5C11;&#x3002;&#x540E;&#x671F;&#xFF0C;&#x968F;&#x7740;&#x6D4B;&#x8BD5;&#x6848;&#x4F8B;&#x7684;&#x5B8C;&#x5584;&#x548C;&#x81EA;&#x52A8;&#x5316;&#xFF0C;&#x6D4B;&#x8BD5;&#x548C;&#x5F00;&#x53D1;&#x6240;&#x9700;&#x8981;&#x4ED8;&#x51FA;&#x7684;&#x6295;&#x5165;&#x90FD;&#x51CF;&#x5C11;&#x5230;&#x4E00;&#x4E2A;&#x5F88;&#x4F4E;&#x7684;&#x6C34;&#x5E73;&#x3002;&#x9634;&#x5F71;&#x90E8;&#x5206;&#x662F;&#x8282;&#x7701;&#x7684;&#x5F00;&#x53D1;&#x6295;&#x5165;&#x3002;</p>
+<p>&#x540C;&#x65F6;&#xFF0C;&#x5982;&#x679C;&#x81EA;&#x52A8;&#x5316;&#x6D4B;&#x8BD5;&#x505A;&#x7684;&#x4E0D;&#x597D;&#xFF0C;&#x5728;&#x540E;&#x671F;&#xFF0C;&#x5C06;&#x53EF;&#x80FD;&#x52A0;&#x5927;&#x6D4B;&#x8BD5;&#x548C;&#x5F00;&#x53D1;&#x7684;&#x8D1F;&#x62C5;&#xFF1A;</p>
+<p><a href="http://images.cnblogs.com/cnblogs_com/coderzh/WindowsLiveWriter/xUnitTestPatterns2GoalOfTestAutomation_FF5C/image_6.png" target="_blank" rel="noopener"><img src="https://images.cnblogs.com/cnblogs_com/coderzh/WindowsLiveWriter/xUnitTestPatterns2GoalOfTestAutomation_FF5C/image_thumb_2.png" alt="image"></a></p>
+<h3><a href="#zi-dong-hua-ce-shi-de-mu-biao" class="header-anchor">#</a><span id="zi-dong-hua-ce-shi-de-mu-biao">&#x81EA;&#x52A8;&#x5316;&#x6D4B;&#x8BD5;&#x7684;&#x76EE;&#x6807;</span></h3><ol>
+<li>Tests should help us improve quality.</li>
+<li>Tests should help us understand the SUT.</li>
+<li>Tests should reduce (and not introduce) risk.</li>
+<li>Tests should be easy to run.</li>
+<li>Tests should be easy to write and maintain.</li>
+<li>Tests should require minimal maintenance as the system evolves around them.</li>
+</ol>
+<h4><a href="#tests-should-help-us-improve-quality" class="header-anchor">#</a><span id="tests-should-help-us-improve-quality">Tests should help us improve quality</span></h4><ol>
+<li>Tests as Specification &#x6D4B;&#x8BD5;&#x6848;&#x4F8B;&#x53EF;&#x4EE5;&#x9A8C;&#x8BC1;&#x4EA7;&#x54C1;&#x7684;&#x884C;&#x4E3A;&#xFF0C;&#x9A8C;&#x8BC1;&#x662F;&#x5426;&#x201C;building the right software&#x201D;</li>
+<li>Bug Repellent &#x81EA;&#x52A8;&#x5316;&#x6D4B;&#x8BD5;&#x7684;&#x4E3B;&#x8981;&#x76EE;&#x7684;&#x4E0D;&#x662F;&#x53D1;&#x73B0;Bug&#xFF0C;&#x800C;&#x662F;&#x9884;&#x9632;&#x6216;&#x9632;&#x6B62;Bug&#x7684;&#x51FA;&#x73B0;&#x3002;</li>
+<li>Defect Localization &#x9876;&#x5C42;&#x7684;customer tests&#x53EA;&#x4F1A;&#x544A;&#x8BC9;&#x4F60;&#x6848;&#x4F8B;&#x5931;&#x8D25;&#x4E86;&#xFF0C;unit tests&#x4F1A;&#x544A;&#x8BC9;&#x4F60;&#x4E3A;&#x4EC0;&#x4E48;&#x5931;&#x8D25;&#x4E86;&#xFF0C;&#x80FD;&#x5B9A;&#x4F4D;&#x5230;&#x5177;&#x4F53;&#x7684;&#x95EE;&#x9898;&#x3002;&#x5982;&#x679C;customer tests&#x5931;&#x8D25;&#x4E86;&#x800C;&#x6240;&#x6709;&#x7684;unit tests&#x5374;&#x901A;&#x8FC7;&#x7684;&#x8BDD;&#xFF0C;&#x8BF4;&#x660E;&#x5355;&#x5143;&#x6D4B;&#x8BD5;&#x6848;&#x4F8B;&#x7F3A;&#x5931;&#x4E86;&#x3002;(Missing Unit Test)</li>
+</ol>
+<h4><a href="#tests-should-help-us-understand-the-sut" class="header-anchor">#</a><span id="tests-should-help-us-understand-the-sut">Tests should help us understand the SUT</span></h4><p>&#x6D4B;&#x8BD5;&#x6848;&#x4F8B;&#x662F;&#x975E;&#x5E38;&#x597D;&#x7684;&#x6587;&#x6863;&#xFF0C;&#x5B83;&#x544A;&#x8BC9;&#x4E86;&#x4F60;SUT&#x505A;&#x4E86;&#x4E9B;&#x4EC0;&#x4E48;&#x3002;&#x540C;&#x65F6;&#xFF0C;&#x5B83;&#x8FD8;&#x8BA9;&#x4F60;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x8C03;&#x8BD5;&#x6D4B;&#x8BD5;&#x6848;&#x4F8B;&#xFF0C;&#x5355;&#x6B65;&#x8DDF;&#x8E2A;&#xFF0C;&#x53BB;&#x4E86;&#x89E3;&#x6574;&#x4E2A;&#x7CFB;&#x7EDF;&#x662F;&#x5982;&#x4F55;&#x8FD0;&#x4F5C;&#x7684;&#x3002;</p>
+<h4><a href="#tests-should-reduce-and-not-introduce-risk" class="header-anchor">#</a><span id="tests-should-reduce-and-not-introduce-risk">Tests should reduce (and not introduce) risk</span></h4><ol>
+<li>Tests as Safety Net &#x6D4B;&#x8BD5;&#x6848;&#x4F8B;&#x5E94;&#x8BE5;&#x6210;&#x4E3A;&#x4FEE;&#x6539;&#x4EE3;&#x7801;&#x5B89;&#x5168;&#x7684;&#x4FDD;&#x969C;&#xFF0C;&#x8BA9;&#x6211;&#x4EEC;&#x5728;&#x91CD;&#x6784;&#x65E7;&#x4EE3;&#x7801;&#x65F6;&#x80FD;&#x591F;&#x5927;&#x5200;&#x9614;&#x65A7;&#xFF0C;&#x800C;&#x4E0D;&#x5FC5;&#x62C5;&#x5FC3;&#x4F1A;&#x7834;&#x574F;&#x4EC0;&#x4E48;&#x3002;</li>
+<li>Do No Harm &#x6D4B;&#x8BD5;&#x6848;&#x4F8B;&#x4E0D;&#x80FD;&#x5BF9;&#x4EA7;&#x54C1;&#x9020;&#x6210;&#x5F71;&#x54CD;&#xFF0C;&#x4E00;&#x4E2A;&#x91CD;&#x8981;&#x7684;&#x539F;&#x5219;&#x662F;&#xFF0C;&#x4E0D;&#x8981;&#x4FEE;&#x6539;SUT&#x3002;</li>
+</ol>
+<h4><a href="#tests-should-be-easy-to-run" class="header-anchor">#</a><span id="tests-should-be-easy-to-run">Tests should be easy to run</span></h4><ol>
+<li>Fully Automated Test &#x5B8C;&#x5168;&#x81EA;&#x52A8;&#x5316;</li>
+<li>Self-Checking Test &#x80FD;&#x591F;&#x81EA;&#x6211;&#x68C0;&#x67E5;&#xFF0C;&#x8BF4;&#x767D;&#x4E86;&#x5C31;&#x662F;&#x4E0D;&#x9700;&#x8981;&#x4EBA;&#x5DE5;&#x53BB;&#x68C0;&#x67E5;&#x6848;&#x4F8B;&#x6267;&#x884C;&#x7684;&#x7ED3;&#x679C;&#x5BF9;&#x4E0D;&#x5BF9;</li>
+<li>Repeatable Test &#x9700;&#x8981;&#x5177;&#x5907;&#x53EF;&#x91CD;&#x590D;&#x6027;&#x3002;&#x9F13;&#x52B1;&#x5F00;&#x53D1;&#x4EBA;&#x5458;&#x5728;&#x6BCF;&#x4E00;&#x6B21;&#x6309;&#x4E0B;&#x4FDD;&#x5B58;&#x6309;&#x94AE;&#x65F6;&#x90FD;&#x6267;&#x884C;&#x4E00;&#x6B21;&#x6D4B;&#x8BD5;&#x6848;&#x4F8B;(&#x6211;&#x6CA1;&#x4E8B;&#x5C31;&#x559C;&#x6B22;Ctrl+S)&#x3002;&#x6848;&#x4F8B;&#x9700;&#x8981;&#x5177;&#x5907;&#x53EF;&#x91CD;&#x590D;&#x6027;&#xFF0C;&#x5FC5;&#x987B;&#x5177;&#x5907;&#x81EA;&#x6211;&#x6E05;&#x7406;&#x80FD;&#x529B;(self-cleaning)&#xFF0C;&#x901A;&#x5E38;&#xFF0C;&#x662F;&#x5728;Test Fixture&#x7684;TearDown&#x4E2D;&#x8FDB;&#x884C;&#x73AF;&#x5883;&#x7684;&#x6E05;&#x7406;&#x3002;</li>
+</ol>
+<h4><a href="#tests-should-be-easy-to-write-and-maintain" class="header-anchor">#</a><span id="tests-should-be-easy-to-write-and-maintain">Tests should be easy to write and maintain</span></h4><ol>
+<li>Simple Tests &#x4E00;&#x4E2A;&#x9996;&#x8981;&#x7684;&#x539F;&#x5219;&#x662F;&#xFF0C;&#x8BA9;&#x6D4B;&#x8BD5;&#x6848;&#x4F8B;&#x5C3D;&#x91CF;&#x7684;&#x7B80;&#x5355;&#xFF0C;&#x4F7F;&#x5F97;&#x5176;&#x66F4;&#x5BB9;&#x6613;&#x7EF4;&#x62A4;&#x3002;&#x4E00;&#x6B21;&#x53EA;&#x6D4B;&#x4E00;&#x79CD;&#x6761;&#x4EF6;&#xFF08;Verify One Condition per Test&#xFF09;</li>
+<li>Expressive Tests &#x6D4B;&#x8BD5;&#x6848;&#x4F8B;&#x8981;&#x8FBE;&#x5230;&#x8868;&#x8FBE;&#x6E05;&#x6670;&#x7684;&#x76EE;&#x7684;&#xFF0C;&#x6BD4;&#x5982;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x4E00;&#x4E9B;Creation Mehods&#x548C;Custom Assertion&#x3002;&#x6709;&#x70B9;&#x50CF;BDD&#x3002;</li>
+<li>Separation of Concerns &#x6D4B;&#x8BD5;&#x6848;&#x4F8B;&#x8981;&#x5C3D;&#x91CF;&#x6D4B;&#x8BD5;&#x5355;&#x4E00;&#xFF0C;&#x72EC;&#x7ACB;&#x7684;&#x529F;&#x80FD;&#xFF0C;&#x4E0D;&#x8981;&#x4F9D;&#x8D56;&#x8FC7;&#x591A;&#x3002;&#x5F80;&#x5F80;&#x9700;&#x8981;&#x524D;&#x671F;&#x5C31;&#x4ECB;&#x5165;&#x53C2;&#x4E0E;&#x4EA7;&#x54C1;&#x7684;&#x53EF;&#x6D4B;&#x6027;&#x8BBE;&#x8BA1;(design for testability)&#x3002;</li>
+</ol>
+<h4><a href="#tests-should-require-minimal-maintenance-as-the-system-evolves-around-them" class="header-anchor">#</a><span id="tests-should-require-minimal-maintenance-as-the-system-evolves-around-them">Tests should require minimal maintenance as the system evolves around them</span></h4><p>&#x6D4B;&#x8BD5;&#x6848;&#x4F8B;&#x9700;&#x8981;&#x6700;&#x5C0F;&#x5316;&#x7EF4;&#x62A4;&#x7684;&#x5DE5;&#x4F5C;&#xFF0C;&#x56E0;&#x6B64;&#xFF0C;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x7F16;&#x5199;&#x5065;&#x58EE;&#x7684;&#x6D4B;&#x8BD5;&#x6848;&#x4F8B;(Robust Test)&#x3002;</p>
+<h3><a href="#" class="header-anchor">#</a><span id>&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;</span></h3><p>&#x8FD9;&#x7AE0;&#x8BB2;&#x7684;&#x662F;&#x6D4B;&#x8BD5;&#x7684;&#x76EE;&#x6807;&#xFF0C;&#x4FDD;&#x6301;&#x6848;&#x4F8B;&#x7B80;&#x5355;&#xFF0C;&#x7A33;&#x5B9A;&#xFF0C;&#x5BB9;&#x6613;&#x7EF4;&#x62A4;&#x7684;&#x58F0;&#x97F3;&#x4F3C;&#x4E4E;&#x603B;&#x662F;&#x5728;&#x4E0D;&#x505C;&#x7684;&#x91CD;&#x590D;&#x7740;&#xFF0C;&#x662F;&#x4E0D;&#x662F;&#x6709;&#x70B9;&#x70E6;&#x4E86;&#xFF1F;&#x4E5F;&#x8BB8;&#x4F5C;&#x8005;&#x5C31;&#x662F;&#x5E0C;&#x671B;&#x901A;&#x8FC7;&#x8FD9;&#x79CD;&#x4E0D;&#x505C;&#x7684;&#x5520;&#x53E8;&#xFF0C;&#x8BA9;&#x6211;&#x4EEC;&#x771F;&#x6B63;&#x8BB0;&#x4F4F;&#x3001;&#x63A5;&#x53D7;&#xFF0C;&#x5E76;&#x6700;&#x7EC8;&#x4F53;&#x4F1A;&#x548C;&#x611F;&#x609F;&#x5230;&#x8FD9;&#x4E9B;&#x4E1C;&#x897F;&#x7ED9;&#x6211;&#x4EEC;&#x5E26;&#x6765;&#x7684;&#x597D;&#x5904;&#x5427;&#x3002;</p>
+]]></content>
+      <tags>
+        <tag>xunit</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>xunit学习笔记1</title>
     <url>/2020/08/12/xunit%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/</url>
     <content><![CDATA[<a id="more"></a>
