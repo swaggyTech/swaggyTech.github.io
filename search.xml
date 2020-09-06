@@ -1,6 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Java Map的正确使用方式</title>
+    <url>/2020/09/06/Java-Map%E7%9A%84%E6%AD%A3%E7%A1%AE%E4%BD%BF%E7%94%A8%E6%96%B9%E5%BC%8F/</url>
+    <content><![CDATA[<a id="more"></a>
+
+<!--toc-->
+
+<p>&#x53EA;&#x4F7F;&#x7528;hashmap&#xFF0C;&#x53EA;&#x9700;&#x8981;&#x6B63;&#x786E;&#x5B9E;&#x73B0;hashCode()&#x548C;equals()&#x5C31;&#x591F;&#x4E86;</p>
+<p>&#x4F46;&#x662F;&#xFF0C;&#x5982;&#x679C;&#x6362;&#x6210;TreeMap,&#x6B63;&#x786E;&#x5B9E;&#x73B0;hashCode()&#x3001;equals()&#xFF0C;&#x7ED3;&#x679C;&#x4E0D;&#x4E00;&#x5B9A;&#x6B63;&#x786E;</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span> <span class="keyword">implements</span> <span class="title">Comparable</span>&lt;<span class="title">Student</span>&gt; </span>{</span><br><span class="line">    <span class="keyword">final</span> String name;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> score;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Student</span><span class="params">(String name, <span class="keyword">int</span> score)</span> </span>{</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">        <span class="keyword">this</span>.score = score;</span><br><span class="line">    }</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span> </span>{</span><br><span class="line">        <span class="keyword">return</span> Objects.hash(name, score);</span><br><span class="line">    }</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object obj)</span> </span>{</span><br><span class="line">        <span class="keyword">if</span> (obj <span class="keyword">instanceof</span> Student) {</span><br><span class="line">            Student o = (Student) obj;</span><br><span class="line">            <span class="keyword">return</span> Objects.equals(<span class="keyword">this</span>.name, o.name) &amp;&amp; <span class="keyword">this</span>.score == o.score;</span><br><span class="line">        }</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    }</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compareTo</span><span class="params">(Student o)</span> </span>{</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.score &lt; o.score ? -<span class="number">1</span> : <span class="number">1</span>;</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+
+<p>hashMap&#x6D4B;&#x8BD5;&#xFF1A;</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Map&lt;Student, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">map.put(<span class="keyword">new</span> Student(<span class="string">&quot;Michael&quot;</span>, <span class="number">99</span>), <span class="number">99</span>);</span><br><span class="line">map.put(<span class="keyword">new</span> Student(<span class="string">&quot;Bob&quot;</span>, <span class="number">88</span>), <span class="number">88</span>);</span><br><span class="line">map.put(<span class="keyword">new</span> Student(<span class="string">&quot;Alice&quot;</span>, <span class="number">77</span>), <span class="number">77</span>);</span><br><span class="line">System.out.println(map.get(<span class="keyword">new</span> Student(<span class="string">&quot;Michael&quot;</span>, <span class="number">99</span>)));</span><br><span class="line">System.out.println(map.get(<span class="keyword">new</span> Student(<span class="string">&quot;Bob&quot;</span>, <span class="number">88</span>)));</span><br><span class="line">System.out.println(map.get(<span class="keyword">new</span> Student(<span class="string">&quot;Alice&quot;</span>, <span class="number">77</span>)));</span><br></pre></td></tr></table></figure>
+
+<p>&#x8F93;&#x51FA;&#x4E3A;<code>99</code>&#x3001;<code>88</code>&#x3001;<code>77</code>&#xFF0C;&#x4E00;&#x5207;&#x6B63;&#x5E38;&#x3002;</p>
+<p>&#x628A;<code>HashMap</code>&#x6539;&#x4E3A;<code>TreeMap</code>&#x518D;&#x6D4B;&#x8BD5;&#xFF1A;</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Map&lt;Student, Integer&gt; map = <span class="keyword">new</span> TreeMap&lt;&gt;();</span><br></pre></td></tr></table></figure>
+
+<p>&#x8F93;&#x51FA;&#x4E3A;<code>null</code>&#x3001;<code>null</code>&#x3001;<code>null</code>&#xFF01;</p>
+<p>&#x5148;&#x6253;&#x5F00;JDK&#x7684;TreeMap&#x6587;&#x6863;&#xFF0C;&#x6CE8;&#x610F;&#x5230;&#x8FD9;&#x53E5;&#x8BDD;&#xFF1A;</p>
+<blockquote>
+<p>This is so because the Map interface is defined in terms of the equals operation, but a sorted map performs all key comparisons using its compareTo (or compare) method</p>
+</blockquote>
+<p>&#x610F;&#x601D;&#x662F;&#xFF0C;<code>Map</code>&#x63A5;&#x53E3;&#x5B9A;&#x4E49;&#x4E86;&#x4F7F;&#x7528;<code>equals()</code>&#x5224;&#x5B9A;key&#x662F;&#x5426;&#x76F8;&#x7B49;&#xFF0C;&#x4F46;&#x662F;<code>SortedMap</code>&#x5374;&#x4F7F;&#x7528;<code>compareTo()</code>&#x6765;&#x5224;&#x65AD;key&#x662F;&#x5426;&#x76F8;&#x7B49;&#xFF0C;&#x800C;<code>TreeMap</code>&#x662F;&#x4E00;&#x79CD;<code>SortedMap</code>&#x3002;</p>
+<p>&#x6240;&#x4EE5;&#xFF0C;&#x95EE;&#x9898;&#x51FA;&#x5728;<code>compareTo()</code>&#x65B9;&#x6CD5;&#x4E0A;&#xFF1A;</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compareTo</span><span class="params">(Student o)</span> </span>{</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.score &lt; o.score ? -<span class="number">1</span> : <span class="number">1</span>;</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+
+<p>&#x4E0A;&#x9762;&#x8FD9;&#x4E2A;&#x5B9A;&#x4E49;&#xFF0C;&#x7528;&#x6765;&#x6392;&#x5E8F;&#x662F;&#x6CA1;&#x95EE;&#x9898;&#x7684;&#xFF0C;&#x4F46;&#x662F;&#xFF0C;&#x6CA1;&#x6CD5;&#x5224;&#x65AD;&#x76F8;&#x7B49;&#x3002;<code>TreeMap</code>&#x6839;&#x636E;<code>key.compareTo(anther)==0</code>&#x5224;&#x65AD;&#x662F;&#x5426;&#x76F8;&#x7B49;&#xFF0C;&#x800C;&#x4E0D;&#x662F;<code>equals()</code>&#x3002;</p>
+<p>&#x6240;&#x4EE5;&#xFF0C;&#x89E3;&#x51B3;&#x95EE;&#x9898;&#x7684;&#x5173;&#x952E;&#x662F;&#x6B63;&#x786E;&#x5B9E;&#x73B0;<code>compareTo()</code>&#xFF0C;&#x8BE5;&#x76F8;&#x7B49;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x5FC5;&#x987B;&#x8FD4;&#x56DE;<code>0</code>&#xFF1A;</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compareTo</span><span class="params">(Student o)</span> </span>{</span><br><span class="line">    <span class="keyword">int</span> n = Integer.compare(<span class="keyword">this</span>.score, o.score);</span><br><span class="line">    <span class="keyword">return</span> n != <span class="number">0</span> ? n : <span class="keyword">this</span>.name.compareTo(o.name);</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>map</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>api接口统一json格式返回</title>
     <url>/2020/09/06/api%E6%8E%A5%E5%8F%A3%E7%BB%9F%E4%B8%80json%E6%A0%BC%E5%BC%8F%E8%BF%94%E5%9B%9E/</url>
     <content><![CDATA[<a id="more"></a>
